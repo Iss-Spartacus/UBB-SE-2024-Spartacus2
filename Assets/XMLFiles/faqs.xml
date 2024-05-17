@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfFAQ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FAQ>
+    <_id>1</_id>
+    <_question>Question 1</_question>
+    <_answer>Answer to question 1</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>2</_id>
+    <_question>Question 2</_question>
+    <_answer>Answer to question 2</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>3</_id>
+    <_question>Question 3</_question>
+    <_answer>Answer to question 3</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>4</_id>
+    <_question>Question 4</_question>
+    <_answer>Answer to question 4</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>5</_id>
+    <_question>Question 5</_question>
+    <_answer>Answer to question 5</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>6</_id>
+    <_question>Question 6</_question>
+    <_answer>Answer to question 6</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>7</_id>
+    <_question>Question 7</_question>
+    <_answer>Answer to question 7</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>8</_id>
+    <_question>Question 8</_question>
+    <_answer>Answer to question 8</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>9</_id>
+    <_question>Question 9</_question>
+    <_answer>Answer to question 9</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>10</_id>
+    <_question>Question 1</_question>
+    <_answer>Answer 1</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>11</_id>
+    <_question>Is your food gluten-free?</_question>
+    <_answer>I do offer gluten-free options.</_answer>
+  </FAQ>
+  <FAQ>
+    <_id>12</_id>
+    <_question>Why are you so expensive?</_question>
+    <_answer>Why wouldn't I be?</_answer>
+  </FAQ>
+</ArrayOfFAQ>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfAccounts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Account>
+    <_username>admin</_username>
+    <_password>482c811da5d5b4bc6d497ffa98491e38</_password>
+  </Account>
+  <Account>
+    <_username>alice_smith</_username>
+    <_password>9fcc06d1c2909ca627807ad8030d787d</_password>
+  </Account>
+  <Account>
+    <_username>bob_jackson</_username>
+    <_password>e99a18c428cb38d5f260853678922e03</_password>
+  </Account>
+  <Account>
+    <_username>ana_maria</_username>
+    <_password>971326019cdc54a74376d7067d3b5a79</_password>
+  </Account>
+  <Account>
+    <_username>kevin_smith</_username>
+    <_password>101fe98fb8973c4306dd9eee973a4c0b</_password>
+  </Account>
+  <Account>
+    <_username>sindrila</_username>
+    <_password>095b2626c9b6bad0eb89019ea6091bd9</_password>
+  </Account>
+</ArrayOfAccounts>

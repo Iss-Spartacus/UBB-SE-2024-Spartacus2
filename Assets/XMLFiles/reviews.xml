@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfReview xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Review>
+    <Id>1</Id>
+    <UserName>thebigbadbaby</UserName>
+    <Rating>2</Rating>
+    <Comment>i hated it</Comment>
+    <Title>Worst mistake</Title>
+    <ImagePath />
+    <DateOfCreation>12.04.2024 03:25:12</DateOfCreation>
+    <AdminComment>5</AdminComment>
+  </Review>
+  <Review>
+    <Id>2</Id>
+    <UserName>optimistic-guy</UserName>
+    <Rating>5</Rating>
+    <Comment>loved it</Comment>
+    <Title>Recommend</Title>
+    <ImagePath />
+    <DateOfCreation>12.04.2024 03:25:12</DateOfCreation>
+    <AdminComment>6</AdminComment>
+  </Review>
+  <Review>
+    <Id>3</Id>
+    <UserName>slay3r</UserName>
+    <Rating>1</Rating>
+    <Comment>umm</Comment>
+    <Title>?</Title>
+    <ImagePath />
+    <DateOfCreation>12.04.2024 03:25:12</DateOfCreation>
+    <AdminComment>-1</AdminComment>
+  </Review>
+</ArrayOfReview>
