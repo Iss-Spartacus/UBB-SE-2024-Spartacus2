@@ -1,158 +1,143 @@
 using System;
-using System.Xml.Schema;
+using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 using System.IO;
 
 [Serializable]
 public class Business : IXmlSerializable
 {
-    private int _id;
-    private string _name;
-    private string _description;
-    private string _category;
-    private string _logo;
-    private string _banner;
-    private string _logoFileName;
-    private string _bannerShort;
-    private string _phoneNumber;
-    private string _email;
-    private string _website;
-    private string _address;
-    private DateTime _createdAt;
-    private List<string> _managerUsernames = new List<string>();
-    private List<int> _postIds = new List<int>();
-    private List<int> _reviewIds = new List<int>();
-    private List<int> _faqIds = new List<int>();
+    private int id;
+    private string name;
+    private string description;
+    private string category;
+    private string logo;
+    private string banner;
+    private string logoFileName;
+    private string bannerShort;
+    private string phoneNumber;
+    private string email;
+    private string website;
+    private string address;
+    private DateTime createdAt;
+    private List<string> managerUsernames = new List<string>();
+    private List<int> postIds = new List<int>();
+    private List<int> reviewIds = new List<int>();
+    private List<int> faqIds = new List<int>();
 
-    public int Id => _id;
-    public string Name => _name;
-    public string Description => _description;
-    public string Category => _category;
-    public string Logo => _logo;
-    public string Banner => _banner;
-    public string PhoneNumber => _phoneNumber;
-    public string Email => _email;
-    public string Website => _website;
-    public string Address => _address;
-    public DateTime CreatedAt => _createdAt;
-    public List<string> ManagerUsernames => _managerUsernames;
-    public List<int> PostIds => _postIds;
-    public List<int> ReviewIds => _reviewIds;
+    public int Id => id;
+    public string Name => name;
+    public string Description => description;
+    public string Category => category;
+    public string Logo => logo;
+    public string Banner => banner;
+    public string PhoneNumber => phoneNumber;
+    public string Email => email;
+    public string Website => website;
+    public string Address => address;
+    public DateTime CreatedAt => createdAt;
+    public List<string> ManagerUsernames => managerUsernames;
+    public List<int> PostIds => postIds;
+    public List<int> ReviewIds => reviewIds;
+    public List<int> FaqIds => faqIds;
 
-    public List<int> FaqIds => _faqIds;
+    public Business() { }
 
-    public Business()
-    {
-
-    }
     public Business(int id, string name, string description, string category, string logo, string banner, string phoneNumber, string email, string website, string address, DateTime createdAt, List<string> managerUsernames, List<int> postIds, List<int> reviewIds, List<int> faqIds)
     {
-        _id = id;
-        _name = name;
-        _description = description;
-        _category = category;
-        _logo = logo;
-        _banner = banner;
-        _phoneNumber = phoneNumber;
-        _email = email;
-        _website = website;
-        _address = address;
-        _createdAt = createdAt;
-        _managerUsernames = managerUsernames;
-        _postIds = postIds;
-        _reviewIds = reviewIds;
-        _faqIds = faqIds;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.logo = logo;
+        this.banner = banner;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.website = website;
+        this.address = address;
+        this.createdAt = createdAt;
+        this.managerUsernames = managerUsernames;
+        this.postIds = postIds;
+        this.reviewIds = reviewIds;
+        this.faqIds = faqIds;
     }
 
     public Business(int id, string name, string description, string category, string logoFileName, string logo, string bannerShort, string banner, string phoneNumber, string email, string website, string address, DateTime createdAt, List<string> managerUsernames, List<int> postIds, List<int> reviewIds, List<int> faqIds)
     {
-        _id = id;
-        _name = name;
-        _description = description;
-        _category = category;
-        _logoFileName = logoFileName;
-        _logo = logo;
-        _bannerShort = bannerShort;
-        _banner = banner;
-        _phoneNumber = phoneNumber;
-        _email = email;
-        _website = website;
-        _address = address;
-        _createdAt = createdAt;
-        _managerUsernames = managerUsernames;
-        _postIds = postIds;
-        _reviewIds = reviewIds;
-        _faqIds = faqIds;
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.logoFileName = logoFileName;
+        this.logo = logo;
+        this.bannerShort = bannerShort;
+        this.banner = banner;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.website = website;
+        this.address = address;
+        this.createdAt = createdAt;
+        this.managerUsernames = managerUsernames;
+        this.postIds = postIds;
+        this.reviewIds = reviewIds;
+        this.faqIds = faqIds;
     }
 
-    public void SetName(string name) => _name = name;
-    public void SetDescription(string description) => _description = description;
-    public void SetCategory(string category) => _category = category;
-    public void SetLogo(string logo) => _logo = logo;
-    public void SetBanner(string banner) => _banner = banner;
-    public void SetPhoneNumber(string phoneNumber) => _phoneNumber = phoneNumber;
-    public void SetEmail(string email) => _email = email;
-    public void SetWebsite(string website) => _website = website;
-    public void SetAddress(string address) => _address = address;
-    public void SetCreatedAt(DateTime createdAt) => _createdAt = createdAt;
-    public void SetLogoFileName(string logoFileName) => _logoFileName = logoFileName;
-    public void SetBannerShort(string bannerShort) => _bannerShort = bannerShort;
-    public void SetManagerUsernames(List<string> usernames) => _managerUsernames = usernames;
-    public void SetPostIds(List<int> postIds) => _postIds = postIds;
-    public void SetReviewIds(List<int> reviewIds) => _reviewIds = reviewIds;
-    public void SetFaqIds(List<int> faqIds) => _faqIds = faqIds;
+    public void SetName(string name) => this.name = name;
+    public void SetDescription(string description) => this.description = description;
+    public void SetCategory(string category) => this.category = category;
+    public void SetLogo(string logo) => this.logo = logo;
+    public void SetBanner(string banner) => this.banner = banner;
+    public void SetPhoneNumber(string phoneNumber) => this.phoneNumber = phoneNumber;
+    public void SetEmail(string email) => this.email = email;
+    public void SetWebsite(string website) => this.website = website;
+    public void SetAddress(string address) => this.address = address;
+    public void SetCreatedAt(DateTime createdAt) => this.createdAt = createdAt;
+    public void SetLogoFileName(string logoFileName) => this.logoFileName = logoFileName;
+    public void SetBannerShort(string bannerShort) => this.bannerShort = bannerShort;
+    public void SetManagerUsernames(List<string> usernames) => managerUsernames = usernames;
+    public void SetPostIds(List<int> postIds) => this.postIds = postIds;
+    public void SetReviewIds(List<int> reviewIds) => this.reviewIds = reviewIds;
+    public void SetFaqIds(List<int> faqIds) => this.faqIds = faqIds;
 
-    public void AddManager(string managerUsername)
-    {
-        _managerUsernames.Add(managerUsername);
-    }
+    public void AddManager(string managerUsername) => managerUsernames.Add(managerUsername);
 
-    public override string ToString()
-    {
-        return $"Business [ID: {_id}, Name: {_name}, Category: {_category}, Created: {_createdAt.ToShortDateString()}]";
-    }
+    public override string ToString() => $"Business [ID: {id}, Name: {name}, Category: {category}, Created: {createdAt.ToShortDateString()}]";
 
-    public XmlSchema GetSchema()
-    {
-        return null;
-    }
+    public XmlSchema GetSchema() => null;
 
     public void ReadXml(XmlReader reader)
     {
-        reader.ReadStartElement("Business"); 
+        reader.ReadStartElement("Business");
 
-        _id = int.Parse(reader.ReadElementString("_id"));
-        _name = reader.ReadElementString("_name");
-        _description = reader.ReadElementString("_description");
-        _category = reader.ReadElementString("_category");
+        id = int.Parse(reader.ReadElementString("Id"));
+        name = reader.ReadElementString("Name");
+        description = reader.ReadElementString("Description");
+        category = reader.ReadElementString("Category");
 
         string binDirectory = "\\bin";
         string basePath = AppDomain.CurrentDomain.BaseDirectory;
-        string pathUntilBin;
+        string pathUntilBin = basePath.Substring(0, basePath.IndexOf(binDirectory));
 
+        logoFileName = reader.ReadElementString("Logo");
+        bannerShort = reader.ReadElementString("Banner");
 
-        int index = basePath.IndexOf(binDirectory);
-        pathUntilBin = basePath.Substring(0, index);
+        logo = Path.Combine(pathUntilBin, logoFileName);
+        banner = Path.Combine(pathUntilBin, bannerShort);
 
-        _logoFileName = reader.ReadElementString("_logo");
-        _bannerShort = reader.ReadElementString("_banner");
+        phoneNumber = reader.ReadElementString("PhoneNumber");
+        email = reader.ReadElementString("Email");
+        website = reader.ReadElementString("Website");
+        address = reader.ReadElementString("Address");
+        createdAt = DateTime.Parse(reader.ReadElementString("CreatedAt"));
 
-         _logo = Path.Combine(pathUntilBin, _logoFileName);
-        _banner = Path.Combine(pathUntilBin, _bannerShort);
-
-        _phoneNumber = reader.ReadElementString("_phoneNumber");
-        _email = reader.ReadElementString("_email");
-        _website = reader.ReadElementString("_website");
-        _address = reader.ReadElementString("_address");
-        _createdAt = DateTime.Parse(reader.ReadElementString("_createdAt"));
-
-        reader.ReadStartElement("_managerUsernames");
+        reader.ReadStartElement("ManagerUsernames");
         while (reader.NodeType != XmlNodeType.EndElement)
         {
-            if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "username")
+            if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "Username")
             {
-                _managerUsernames.Add(reader.ReadElementString("username"));
+                managerUsernames.Add(reader.ReadElementString("Username"));
             }
             else
             {
@@ -161,40 +146,16 @@ public class Business : IXmlSerializable
         }
         reader.ReadEndElement();
 
-        if (reader.IsStartElement("_postIds"))
-        {
-            if (!reader.IsEmptyElement) 
-            {
-                reader.ReadStartElement("_postIds");
-                while (reader.NodeType != XmlNodeType.EndElement)
-                {
-                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "postId")
-                    {
-                        _postIds.Add(int.Parse(reader.ReadElementString("postId")));
-                    }
-                    else
-                    {
-                        reader.Read();
-                    }
-                }
-                reader.ReadEndElement(); 
-            }
-            else
-            {
-                reader.Read(); 
-            }
-        }
-
-        if (reader.IsStartElement("_reviewIds"))
+        if (reader.IsStartElement("PostIds"))
         {
             if (!reader.IsEmptyElement)
             {
-                reader.ReadStartElement("_reviewIds");
+                reader.ReadStartElement("PostIds");
                 while (reader.NodeType != XmlNodeType.EndElement)
                 {
-                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "reviewId")
+                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "PostId")
                     {
-                        _reviewIds.Add(int.Parse(reader.ReadElementString("reviewId")));
+                        postIds.Add(int.Parse(reader.ReadElementString("PostId")));
                     }
                     else
                     {
@@ -205,20 +166,20 @@ public class Business : IXmlSerializable
             }
             else
             {
-                reader.Read(); 
+                reader.Read();
             }
         }
 
-        if (reader.IsStartElement("_faqIds"))
+        if (reader.IsStartElement("ReviewIds"))
         {
-            if (!reader.IsEmptyElement) 
+            if (!reader.IsEmptyElement)
             {
-                reader.ReadStartElement("_faqIds");
+                reader.ReadStartElement("ReviewIds");
                 while (reader.NodeType != XmlNodeType.EndElement)
                 {
-                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "faqId")
+                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "ReviewId")
                     {
-                        _faqIds.Add(int.Parse(reader.ReadElementString("faqId")));
+                        reviewIds.Add(int.Parse(reader.ReadElementString("ReviewId")));
                     }
                     else
                     {
@@ -229,56 +190,77 @@ public class Business : IXmlSerializable
             }
             else
             {
-                reader.Read(); 
+                reader.Read();
             }
         }
 
+        if (reader.IsStartElement("FaqIds"))
+        {
+            if (!reader.IsEmptyElement)
+            {
+                reader.ReadStartElement("FaqIds");
+                while (reader.NodeType != XmlNodeType.EndElement)
+                {
+                    if (reader.NodeType == XmlNodeType.Element && reader.LocalName == "FaqId")
+                    {
+                        faqIds.Add(int.Parse(reader.ReadElementString("FaqId")));
+                    }
+                    else
+                    {
+                        reader.Read();
+                    }
+                }
+                reader.ReadEndElement();
+            }
+            else
+            {
+                reader.Read();
+            }
+        }
 
         reader.ReadEndElement();
     }
 
     public void WriteXml(XmlWriter writer)
     {
-        writer.WriteElementString("_id", _id.ToString());
-        writer.WriteElementString("_name", _name);
-        writer.WriteElementString("_description", _description);
-        writer.WriteElementString("_category", _category);
-        writer.WriteElementString("_logo", _logoFileName);
-        writer.WriteElementString("_banner", _bannerShort);
-        writer.WriteElementString("_phoneNumber", _phoneNumber);
-        writer.WriteElementString("_email", _email);
-        writer.WriteElementString("_website", _website);
-        writer.WriteElementString("_address", _address);
-        writer.WriteElementString("_createdAt", _createdAt.ToString());
+        writer.WriteElementString("Id", id.ToString());
+        writer.WriteElementString("Name", name);
+        writer.WriteElementString("Description", description);
+        writer.WriteElementString("Category", category);
+        writer.WriteElementString("Logo", logoFileName);
+        writer.WriteElementString("Banner", bannerShort);
+        writer.WriteElementString("PhoneNumber", phoneNumber);
+        writer.WriteElementString("Email", email);
+        writer.WriteElementString("Website", website);
+        writer.WriteElementString("Address", address);
+        writer.WriteElementString("CreatedAt", createdAt.ToString("dd-MM-yyyy HH:mm"));
 
-        writer.WriteStartElement("_managerUsernames");
-        foreach (string username in _managerUsernames)
+        writer.WriteStartElement("ManagerUsernames");
+        foreach (string username in managerUsernames)
         {
-            writer.WriteElementString("username", username);
-        }
-        writer.WriteEndElement(); 
-
-        writer.WriteStartElement("_postIds");
-        foreach (int postId in _postIds)
-        {
-            writer.WriteElementString("postId", postId.ToString());
-        }
-        writer.WriteEndElement(); 
-
-        writer.WriteStartElement("_reviewIds");
-        foreach (int reviewId in _reviewIds)
-        {
-            writer.WriteElementString("reviewId", reviewId.ToString());
+            writer.WriteElementString("Username", username);
         }
         writer.WriteEndElement();
 
-        writer.WriteStartElement("_faqIds");
-        foreach (int faqId in _faqIds)
+        writer.WriteStartElement("PostIds");
+        foreach (int postId in postIds)
         {
-            writer.WriteElementString("faqId", faqId.ToString());
+            writer.WriteElementString("PostId", postId.ToString());
         }
         writer.WriteEndElement();
 
+        writer.WriteStartElement("ReviewIds");
+        foreach (int reviewId in reviewIds)
+        {
+            writer.WriteElementString("ReviewId", reviewId.ToString());
+        }
+        writer.WriteEndElement();
+
+        writer.WriteStartElement("FaqIds");
+        foreach (int faqId in faqIds)
+        {
+            writer.WriteElementString("FaqId", faqId.ToString());
+        }
+        writer.WriteEndElement();
     }
-
 }
