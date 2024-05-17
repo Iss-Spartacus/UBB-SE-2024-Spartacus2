@@ -1,0 +1,34 @@
+﻿<Window x:Class="bussiness_social_media.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:bussiness_social_media"
+
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TabPanel>
+            <Button Content="Home"
+                    Height="25"
+                    Command="{Binding Path=NavigateToHomeCommand}"/>
+
+            <Button Content="Create business"
+                    Height="25"
+                    Command="{Binding Path=NavigateToCreateNewBusinessViewCommand}"/>
+
+
+            <Button Content="Managed businesses"
+					Height="25"
+					Command="{Binding Path=NavigateToUserManagedBusinessesViewCommand}"/>
+        </TabPanel>
+
+
+            <ContentControl Grid.Row="1" Content="{Binding Navigation.CurrentView}"/>
+    </Grid>
+</Window>

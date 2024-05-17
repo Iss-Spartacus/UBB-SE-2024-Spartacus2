@@ -1,0 +1,54 @@
+﻿<Application x:Class="bussiness_social_media.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:bussiness_social_media"
+             xmlns:viewModel="clr-namespace:bussiness_social_media.MVVM.ViewModel"
+             xmlns:view="clr-namespace:bussiness_social_media.MVVM.View">
+    <Application.Resources>
+        <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
+            <view:HomeView/>
+
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CreateNewBusinessViewModel}">
+            <view:CreateNewBusinessView/>
+
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:UserManagedBusinessPagesViewModel}">
+            <view:UserManagedBusinessPagesView/>
+
+        </DataTemplate>
+
+
+        <DataTemplate DataType="{x:Type viewModel:BusinessProfileViewModel}">
+            <view:BusinessProfileView/>
+
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:BusinessProfileReviewsViewModel}">
+            <view:BusinessProfileReviewsView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:BusinessProfileAboutViewModel}">
+            <view:BusinessProfileAboutView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:BusinessProfileContactViewModel}">
+            <view:BusinessProfileContactView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:LoginViewModel}">
+            <view:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:RegisterViewModel}">
+            <view:RegisterView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CreatePostViewModel}">
+            <view:CreatePostView/>
+        </DataTemplate>
+
+    </Application.Resources>
+</Application>
