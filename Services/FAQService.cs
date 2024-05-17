@@ -14,7 +14,6 @@ namespace bussiness_social_media.Services
         int AddFAQ(string faqQuestion, string faqAnswer);
         void UpdateFAQ(int faqID, string newFaqQuestion, string newFaqAnswer);
         void DeleteFAQ(int faqID);
-
     }
     public class FAQService : IFAQService
     {

@@ -64,7 +64,7 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                if (_authenticationService.getIsLoggedIn())
+                if (_authenticationService.GetIsLoggedIn())
                 {
                     return !_businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
                         _authenticationService.CurrentUser.Username);
@@ -152,7 +152,7 @@ namespace bussiness_social_media.MVVM.ViewModel
         }
         private void LeaveReview()
         {
-            if (_authenticationService.getIsLoggedIn())
+            if (_authenticationService.GetIsLoggedIn())
             {
                 string userName = _authenticationService.CurrentUser.Username;
                 int businessId = _currentBusiness.Id;
@@ -185,7 +185,6 @@ namespace bussiness_social_media.MVVM.ViewModel
                 string filename = openFileDialog.FileName;
                 ImagePath = filename;
             }
-
         }
     }
 }

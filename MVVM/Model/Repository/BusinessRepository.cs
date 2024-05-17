@@ -116,7 +116,6 @@ namespace bussiness_social_media.MVVM.Model.Repository
                     _businesses = new List<Business>();
                 }
             }
-
             catch (Exception ex)
             {
                 MessageBox.Show("Something terrible, terrible has happened during the execution of the program. Show this to your local IT guy: " + ex.Message);
@@ -149,14 +148,14 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
         public void AddBusiness(string name, string description, string category, string logo, string banner, string phoneNumber, string email, string website, string address, DateTime createdAt, List<string> managerUsernames, List<int> postIds, List<int> reviewIds, List<int> faqIds)
         {
-            Business business = new Business(_getNextId(), name, description, category, logo, banner, phoneNumber, email, website, address, createdAt, managerUsernames, postIds, reviewIds, faqIds);
+            Business business = new Business(GetNextId(), name, description, category, logo, banner, phoneNumber, email, website, address, createdAt, managerUsernames, postIds, reviewIds, faqIds);
             _businesses.Add(business);
             SaveBusinessesToXml();
         }
 
         public void AddBusiness(string name, string description, string category, string logoShort, string logo, string bannerShort, string banner, string phoneNumber, string email, string website, string address, DateTime createdAt, List<string> managerUsernames, List<int> postIds, List<int> reviewIds, List<int> faqIds)
         {
-            Business business = new Business(_getNextId(), name, description, category, logoShort, logo, bannerShort, banner, phoneNumber, email, website, address, createdAt, managerUsernames, postIds, reviewIds, faqIds);
+            Business business = new Business(GetNextId(), name, description, category, logoShort, logo, bannerShort, banner, phoneNumber, email, website, address, createdAt, managerUsernames, postIds, reviewIds, faqIds);
             _businesses.Add(business);
             SaveBusinessesToXml();
         }
@@ -193,7 +192,7 @@ namespace bussiness_social_media.MVVM.Model.Repository
             }
         }
 
-        private int _getNextId()
+        private int GetNextId()
         {
             return _businesses.Count > 0 ? _businesses.Max(b => b.Id) + 1 : 1;
         }
@@ -201,8 +200,10 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
         public List<Business> SearchBusinesses(string keyword)
         {
-            if(keyword == "")
+            if (keyword == string.Empty)
+            {
                 return _businesses;
+            }
             var filteredBusinesses = _businesses.Where(b =>
             (string.IsNullOrEmpty(keyword) ||
             b.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||

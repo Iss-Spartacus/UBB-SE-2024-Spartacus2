@@ -34,10 +34,9 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                UserId = _authenticationService.getIsLoggedIn() ? _authenticationService.CurrentUser.Username : string.Empty;
+                UserId = _authenticationService.GetIsLoggedIn() ? _authenticationService.CurrentUser.Username : string.Empty;
                 NoBusinessMessage = UserId == string.Empty ? "" : "You are not managing any businesses";
                 return new ObservableCollection<Business>(_businessService.GetBusinessesManagedBy(UserId));
-                
             }
         }
 
@@ -45,7 +44,7 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                if (_authenticationService.getIsLoggedIn())
+                if (_authenticationService.GetIsLoggedIn())
                 {
                     return "";
                 }
@@ -77,7 +76,7 @@ namespace bussiness_social_media.MVVM.ViewModel
             _businessService = businessService;
             _authenticationService = authenticationService;
 
-            UserId = _authenticationService.getIsLoggedIn() ? _authenticationService.CurrentUser.Username : string.Empty;
+            UserId = _authenticationService.GetIsLoggedIn() ? _authenticationService.CurrentUser.Username : string.Empty;
 
             NavigateToBusinessProfileViewCommand = new RelayCommand(o =>
             {

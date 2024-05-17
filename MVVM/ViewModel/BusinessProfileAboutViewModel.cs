@@ -93,7 +93,7 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                if (_authenticationService.getIsLoggedIn())
+                if (_authenticationService.GetIsLoggedIn())
                 {
                     return _businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
                         _authenticationService.CurrentUser.Username);

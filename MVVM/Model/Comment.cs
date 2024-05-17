@@ -49,7 +49,9 @@ public class Comment : IXmlSerializable
 
         // TODO: this if is experimental. It tries to not read the comment if it is empty. Did not test it.
         if (reader.IsEmptyElement)
+        {
             return;
+        }
 
         reader.ReadStartElement("Comment");
         _id = int.Parse(reader.ReadElementString("Id"));
@@ -58,7 +60,6 @@ public class Comment : IXmlSerializable
         _dateOfCreation = DateTime.ParseExact(reader.ReadElementString("DateOfCreation"), "dd-MM-yyyy HH:mm", null);
         _dateOfUpdate = DateTime.ParseExact(reader.ReadElementString("DateOfUpdate"), "dd-MM-yyyy HH:mm", null);
         reader.ReadEndElement();
-
     }
 
     public void WriteXml(XmlWriter writer)

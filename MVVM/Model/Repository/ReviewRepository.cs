@@ -67,13 +67,10 @@ namespace bussiness_social_media.MVVM.Model.Repository
                     _reviews = new List<Review>();
                 }
             }
-
             catch (Exception ex)
             {
                 MessageBox.Show("Something terrible, terrible has happened during the execution of the program. Show this to your local IT guy. ReviewRepository.LoadReviewsFromXml():" + ex.Message);
-
             }
-
         }
 
         private void SaveReviewsToXml()
@@ -98,7 +95,7 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
         public int AddReview(string userName, int rating, string comment, string title, string imagePath, DateTime dateOfCreation)
         {
-            int newId = _getNextId();
+            int newId = GetNextId();
             Review review = new Review(newId, userName, rating, comment, title, imagePath, dateOfCreation);
             _reviews.Add(review);
             SaveReviewsToXml();
@@ -128,8 +125,7 @@ namespace bussiness_social_media.MVVM.Model.Repository
                 SaveReviewsToXml();
             }
         }
-
-        private int _getNextId()
+        private int GetNextId()
         {
             return _reviews.Count > 0 ? _reviews.Max(r => r.GetReviewId()) + 1 : 1;
         }

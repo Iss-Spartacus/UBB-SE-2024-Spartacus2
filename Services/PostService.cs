@@ -55,6 +55,5 @@ namespace business_social_media.Services
             postToCommentOn.AddComment(commentId);
             _postRepository.ForcePostSavingToXml();
         }
-
     }
 }

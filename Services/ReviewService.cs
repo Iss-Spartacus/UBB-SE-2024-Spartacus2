@@ -15,7 +15,6 @@ namespace bussiness_social_media.Services
         void UpdateReview(int id, int newRating, string newComment, string newTitle, string newImagePath);
         void DeletePost(int id);
         void LinkAdminCommentIdToReview(int reviewId, int commentId);
-
     }
     public class ReviewService : IReviewService
     {

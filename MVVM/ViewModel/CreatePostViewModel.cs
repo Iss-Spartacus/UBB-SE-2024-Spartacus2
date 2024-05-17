@@ -84,7 +84,7 @@ namespace bussiness_social_media.MVVM.ViewModel
 
         private void CreatePost(object parameter)
         {
-            if (_authenticationService.getIsLoggedIn())
+            if (_authenticationService.GetIsLoggedIn())
             {
                 _businessService.CreatePostAndAddItToBusiness(_navigationService.BusinessId, ImagePath, Caption);
             }

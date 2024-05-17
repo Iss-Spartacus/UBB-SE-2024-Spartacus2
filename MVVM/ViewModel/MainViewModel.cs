@@ -69,8 +69,8 @@ namespace bussiness_social_media.MVVM.ViewModel
 
         public void UpdateButtonVisibility()
         {
-            IsLoggedInMenuItemsVisibility = AuthenticationService.getIsLoggedIn() ? Visibility.Visible : Visibility.Collapsed;
-            IsNotLoggedInMenuItemsVisibility = AuthenticationService.getIsLoggedIn() ? Visibility.Collapsed : Visibility.Visible;
+            IsLoggedInMenuItemsVisibility = AuthenticationService.GetIsLoggedIn() ? Visibility.Visible : Visibility.Collapsed;
+            IsNotLoggedInMenuItemsVisibility = AuthenticationService.GetIsLoggedIn() ? Visibility.Collapsed : Visibility.Visible;
         }
 
     }

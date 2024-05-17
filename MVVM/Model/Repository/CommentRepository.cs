@@ -31,7 +31,6 @@ namespace bussiness_social_media.MVVM.Model.Repository
             SaveCommentsToXml();
         }
 
-
         private void LoadCommentsFromXml()
         {
             try

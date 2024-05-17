@@ -65,20 +65,17 @@ namespace bussiness_social_media.MVVM.Model.Repository
             );
             _users.Add(Account3);
 
-            Account Account4 = new Account
+            Account account4 = new Account
             (
                 "ana_maria",
-                GetMd5Hash("8a8n8a9")
-            );
-            _users.Add(Account4);
+                GetMd5Hash("8a8n8a9"));
+            _users.Add(account4);
 
-            Account Account5 = new Account
+            Account account5 = new Account
             (
                 "kevin_smith",
-                GetMd5Hash("k3vin")
-            );
-            _users.Add(Account5);
-
+                GetMd5Hash("k3vin"));
+            _users.Add(account5);
         }
 
         private void LoadUsersFromXml()
@@ -111,7 +108,6 @@ namespace bussiness_social_media.MVVM.Model.Repository
                     _users = new List<Account>();
                 }
             }
-
             catch (Exception ex)
             {
                 MessageBox.Show("Something terrible, terrible has happened during the execution of the program. Show this to your local IT guy. UserRepository.LoadUsersFromXml():" + ex.Message);

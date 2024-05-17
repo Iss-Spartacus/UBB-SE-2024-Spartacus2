@@ -96,15 +96,12 @@ namespace bussiness_social_media.MVVM.ViewModel
                 BusinessList = _businessService.SearchBusinesses(SearchToken);
                 UpdateBusinessesCollection();
                 }, o => true);
-
-
         }
 
         private void NavigateToBusinessProfile(object parameter)
         {
-            if (parameter is int businessId )
+            if (parameter is int businessId)
             {
-
                 NavigationService.NavigateTo<CreateNewBusinessViewModel>();
                 NavigationService.BusinessId = businessId;
 

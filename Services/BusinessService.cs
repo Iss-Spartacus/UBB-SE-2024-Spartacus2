@@ -110,7 +110,6 @@ namespace bussiness_social_media.Services
             Business business = GetBusinessById(businessId);
             business.FaqIds.Add(faqId);
             _businessRepository.SaveBusinessesToXml();
-
         }
 
         public void CreateFAQAndAddItToBusiness(int businessId, string faqQuestion, string faqAnswer)
@@ -160,7 +159,6 @@ namespace bussiness_social_media.Services
             Business business = GetBusinessById(businessId);
             business.ReviewIds.Add(reviewId);
             _businessRepository.SaveBusinessesToXml();
-
         }
 
         public void CreateReviewAndAddItToBusiness(int businessId, string userName, int rating, string comment, string title, string imagePath)
@@ -214,7 +212,6 @@ namespace bussiness_social_media.Services
             return _commentService.GetCommentById(review.AdminCommentId);
         }
     }
-
 }
 
 

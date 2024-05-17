@@ -66,8 +66,5 @@ namespace bussiness_social_media.Services
             ViewModel viewModel = _viewModelFactory.Invoke(typeof(TViewModel));
             CurrentView = viewModel;
         }
-
-
-
     }
 }

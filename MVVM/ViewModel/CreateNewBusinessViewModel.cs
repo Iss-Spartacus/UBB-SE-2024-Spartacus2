@@ -163,11 +163,7 @@ namespace bussiness_social_media.MVVM.ViewModel
                 int index = basePath.IndexOf(binDirectory);
                 string pathUntilBin = basePath.Substring(0, index);
                 string destinationFilePath = Path.Combine(pathUntilBin, $"Assets\\Images\\" + fileName);
-
-
                 File.Copy(sourceFilePath, destinationFilePath, true);
-                // Placeholder values for logo, banner, etc.
-
                 Logo = destinationFilePath;
             }
             
@@ -186,33 +182,25 @@ namespace bussiness_social_media.MVVM.ViewModel
                 int index = basePath.IndexOf(binDirectory);
                 string pathUntilBin = basePath.Substring(0, index);
                 string destinationFilePath = Path.Combine(pathUntilBin, $"Assets\\Images\\" + fileName);
-
-
                 File.Copy(sourceFilePath, destinationFilePath, true);
-                // Placeholder values for logo, banner, etc.
-
                 Logo = destinationFilePath;
-
             }
         }
-        
         private void CreateBusiness(object parameter)
         {
             List<string> managerUsernames = new List<string> { "admin" };
-            if (_authenticationService.getIsLoggedIn())
+            if (_authenticationService.GetIsLoggedIn())
             {
                 managerUsernames.Add(_authenticationService.CurrentUser.Username);
                 _businessService.AddBusiness(BusinessName, BusinessDescription, BusinessCategory, Logo, Banner, PhoneNumber, EmailAddress, Website, Address, DateTime.Now, managerUsernames, new List<int>(), new List<int>(), new List<int>());
-
             }
             else
             {
                 MessageBox.Show("Please log in to create business.");
             }
             _navigationService.NavigateTo<HomeViewModel>();
-          
         }
-        
+
         private bool CanCreateBusiness(object parameter)
         {
             // Add validation logic here if needed
