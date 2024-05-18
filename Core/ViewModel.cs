@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace bussiness_social_media.Core
+namespace Bussiness_social_media.Core
 {
     public abstract class ViewModel : ObservableObject
     {

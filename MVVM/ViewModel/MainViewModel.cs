@@ -1,6 +1,6 @@
 ﻿using business_social_media.Services;
-using bussiness_social_media.Core;
-using bussiness_social_media.Services;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace bussiness_social_media.MVVM.ViewModel
+namespace Bussiness_social_media.MVVM.ViewModel
 {
     public class MainViewModel : Core.ViewModel
     {

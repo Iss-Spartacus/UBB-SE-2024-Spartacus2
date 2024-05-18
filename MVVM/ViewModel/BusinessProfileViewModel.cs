@@ -1,14 +1,13 @@
-﻿using bussiness_social_media.Core;
-using bussiness_social_media.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Navigation;
-using business_social_media.Services;
 using System.Windows;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
 
 public class PostAndComments
 {
@@ -26,7 +25,7 @@ public class PostAndComments
     }
 }
 
-namespace bussiness_social_media.MVVM.ViewModel
+namespace Bussiness_social_media.MVVM.ViewModel
 {
     class BusinessProfileViewModel : Core.ViewModel
     {

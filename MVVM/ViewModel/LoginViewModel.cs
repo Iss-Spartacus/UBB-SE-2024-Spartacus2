@@ -1,8 +1,8 @@
 ﻿using business_social_media.Services;
-using bussiness_social_media.Core;
-using bussiness_social_media.Services;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
 
-namespace bussiness_social_media.MVVM.ViewModel
+namespace Bussiness_social_media.MVVM.ViewModel
 {
     internal class LoginViewModel : Core.ViewModel
     {

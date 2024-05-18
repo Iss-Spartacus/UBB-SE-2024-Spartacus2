@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace bussiness_social_media
+namespace Bussiness_social_media
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

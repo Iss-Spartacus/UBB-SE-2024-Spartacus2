@@ -1,168 +1,130 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace bussiness_social_media.MVVM.Model.Repository
+namespace Bussiness_social_media.MVVM.Model.Repository
 {
     public interface IUserRepository
     {
-        public void AddAccount(Account user);
-        public void DeleteUser(string username);
-
-        public bool UsernameExists(string username);
-
-        public bool IsCredentialsValid(string username, string password);
-        public List<Account> GetAllUsers();
-
-        // Method to compute MD5 hash
-        public string GetMd5Hash(string input);
+        List<Account> GetAllAccounts();
+        Account GetAccountByUsername(string username);
+        void AddAccount(Account account);
+        void DeleteAccount(string username);
+        bool UsernameExists(string username);
+        bool IsCredentialsValid(string username, string password);
+        void ForceAccountSavingToXml();
     }
+
     public class UserRepository : IUserRepository
     {
-        private string _xmlFilePath;
-        private List<Account> _users;
+        private List<Account> accounts;
+        private string xmlFilePath;
 
-        public UserRepository(string xmlFilePATH)
+        public UserRepository(string xmlFilePath)
         {
-            _users = new List<Account>();
-            _xmlFilePath = xmlFilePATH;
-            LoadUsersFromXml();
+            this.xmlFilePath = xmlFilePath;
+            accounts = new List<Account>();
+            LoadAccountsFromXml();
         }
 
-        ~UserRepository() {
-            SaveUsersToXml();
-        }
-
-        // Some hard coded users
-        public void populateRepository()
+        ~UserRepository()
         {
-            Account Account1 = new Account
-            (
-                "admin",
-                GetMd5Hash("password123")
-            );
-            _users.Add(Account1);
-
-            Account Account2 = new Account
-            (
-                "alice_smith",
-                GetMd5Hash("qwerty456")
-            );
-            _users.Add(Account2);
-
-            Account Account3 = new Account
-            (
-                "bob_jackson",
-                GetMd5Hash("abc123")
-            );
-            _users.Add(Account3);
-
-            Account account4 = new Account
-            (
-                "ana_maria",
-                GetMd5Hash("8a8n8a9"));
-            _users.Add(account4);
-
-            Account account5 = new Account
-            (
-                "kevin_smith",
-                GetMd5Hash("k3vin"));
-            _users.Add(account5);
+            SaveAccountsToXml();
         }
 
-        private void LoadUsersFromXml()
+        private void LoadAccountsFromXml()
         {
             try
             {
-                if (File.Exists(_xmlFilePath))
+                accounts = new List<Account>();
+                if (File.Exists(xmlFilePath))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(Account), new XmlRootAttribute("Account"));
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Account>), new XmlRootAttribute("ArrayOfAccounts"));
 
-                    _users = new List<Account>();
-
-                    using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Open))
+                    using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Open))
+                    using (XmlReader reader = XmlReader.Create(fileStream))
                     {
-                        using (XmlReader reader = XmlReader.Create(fileStream))
-                        {
-                            // Move to the first Business element
-                            while (reader.ReadToFollowing("Account"))
-                            {
-                                // Deserialize each Business element and add it to the list
-                                Account user = (Account)serializer.Deserialize(reader);
-                                _users.Add(user);
-                            }
-                        }
+                        accounts = (List<Account>)serializer.Deserialize(reader);
                     }
-                }
-                else
-                {
-                    // Handle the case where the XML file doesn't exist
-                    _users = new List<Account>();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something terrible, terrible has happened during the execution of the program. Show this to your local IT guy. UserRepository.LoadUsersFromXml():" + ex.Message);
+                MessageBox.Show($"An error occurred while loading accounts from XML: {ex.Message}");
             }
         }
 
-        private void SaveUsersToXml()
+        private void SaveAccountsToXml()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Account>), new XmlRootAttribute("ArrayOfAccounts"));
-
-            using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Create))
+            try
             {
-                serializer.Serialize(fileStream, _users);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Account>), new XmlRootAttribute("ArrayOfAccounts"));
+
+                using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Create))
+                {
+                    serializer.Serialize(fileStream, accounts);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving accounts to XML: {ex.Message}");
             }
         }
 
-        public void AddAccount(Account user)
+        public List<Account> GetAllAccounts()
         {
-            _users.Add(user);
-            SaveUsersToXml();
+            return accounts;
         }
 
-        public void DeleteUser(string username)
+        public Account GetAccountByUsername(string username)
         {
-            Account userToRemove = _users.Find(u => u.Username == username);
-            if (userToRemove != null)
+            return accounts.FirstOrDefault(a => a.Username == username);
+        }
+
+        public void AddAccount(Account account)
+        {
+            accounts.Add(account);
+            SaveAccountsToXml();
+        }
+
+        public void DeleteAccount(string username)
+        {
+            var accountToRemove = accounts.FirstOrDefault(a => a.Username == username);
+            if (accountToRemove != null)
             {
-                _users.Remove(userToRemove);
-                SaveUsersToXml();
+                accounts.Remove(accountToRemove);
+                SaveAccountsToXml();
             }
         }
 
         public bool UsernameExists(string username)
         {
-            return _users.Exists(u => u.Username == username);
+            return accounts.Any(a => a.Username == username);
         }
 
         public bool IsCredentialsValid(string username, string password)
         {
-            return _users.Exists(u => u.Username == username && u.Password == password);
+            return accounts.Any(a => a.Username == username && a.Password == password);
         }
 
-        public List<Account> GetAllUsers()
+        public void ForceAccountSavingToXml()
         {
-            return _users;
+            SaveAccountsToXml();
         }
 
-        // Method to compute MD5 hash
         public string GetMd5Hash(string input)
         {
             using (MD5 md5Hash = MD5.Create())
             {
                 if (input is null)
                 {
-                    return "";
+                    return string.Empty;
                 }
                 byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
 

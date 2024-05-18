@@ -5,22 +5,38 @@ using System.Xml.Serialization;
 
 public class FAQ : IXmlSerializable
 {
-    private int _id;
-    private string _question;
-    private string _answer;
+    private int id;
+    private string question;
+    private string answer;
 
-    public FAQ() { }
+    public FAQ()
+    {
+    }
 
     public FAQ(int id, string question, string answer)
     {
-        _id = id;
-        _question = question;
-        _answer = answer;
+        this.id = id;
+        this.question = question;
+        this.answer = answer;
     }
 
-    public string Question { get => _question; set => _question = value; }
-    public string Answer { get => _answer; set => _answer = value; }
-    public int Id { get => _id; set => _id = value; }
+    public int Id
+    {
+        get => id;
+        set => id = value;
+    }
+
+    public string Question
+    {
+        get => question;
+        set => question = value;
+    }
+
+    public string Answer
+    {
+        get => answer;
+        set => answer = value;
+    }
 
     public XmlSchema GetSchema()
     {
@@ -34,17 +50,17 @@ public class FAQ : IXmlSerializable
         reader.ReadStartElement();
         if (!isEmptyElement)
         {
-            _id = int.Parse(reader.ReadElementString("_id"));
-            _question = reader.ReadElementString("_question");
-            _answer = reader.ReadElementString("_answer");
+            id = int.Parse(reader.ReadElementString(nameof(Id)));
+            question = reader.ReadElementString(nameof(Question));
+            answer = reader.ReadElementString(nameof(Answer));
             reader.ReadEndElement();
         }
     }
 
     public void WriteXml(XmlWriter writer)
     {
-        writer.WriteElementString("_id", _id.ToString());
-        writer.WriteElementString("_question", _question);
-        writer.WriteElementString("_answer", _answer);
+        writer.WriteElementString(nameof(Id), id.ToString());
+        writer.WriteElementString(nameof(Question), question);
+        writer.WriteElementString(nameof(Answer), answer);
     }
 }

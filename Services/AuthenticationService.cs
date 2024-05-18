@@ -1,13 +1,13 @@
-using bussiness_social_media.MVVM.Model.Repository;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
+using Bussiness_social_media.MVVM.Model.Repository;
+using Newtonsoft.Json;
 
-namespace business_social_media.Services
+namespace Bussiness_social_media.Services
 {
     public class AuthenticationService
     {
@@ -72,7 +72,6 @@ namespace business_social_media.Services
         {
             return userRepository.GetAllUsers();
         }
-
     }
 }
 

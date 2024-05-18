@@ -1,90 +1,85 @@
-﻿using business_social_media.Services;
-using bussiness_social_media.Core;
-using bussiness_social_media.MVVM.View;
-using bussiness_social_media.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
+using Bussiness_social_media.MVVM.ViewModel;
 
-namespace bussiness_social_media.MVVM.ViewModel
+namespace Business_social_media.MVVM.ViewModel
 {
-    internal class BusinessProfileAboutViewModel : Core.ViewModel
+    internal class BusinessProfileAboutViewModel : Bussiness_social_media.Core.ViewModel
     {
+        private INavigationService navigation;
+        private IBusinessService businessService;
+        private AuthenticationService authenticationService;
 
-        private INavigationService _navigation;
-        private IBusinessService _businessService;
-        private AuthenticationService _authenticationService;
-
-        private string _phoneNumber;
-        private string _emailAddress;
-        private string _website;
-        private string _address;
-        private string _newAdmin;
-
-        public Business _currentBusiness;
-
-        private bool _isCurrentUserManager;
-
-        private bool _isUpdatingBusinessInfo;
+        private string phoneNumber;
+        private string emailAddress;
+        private string website;
+        private string address;
+        private string newAdmin;
+        private Business currentBusiness;
+        private bool isCurrentUserManager;
+        private bool isUpdatingBusinessInfo;
 
         public bool IsUpdatingBusinessInfo
         {
-            get => _isUpdatingBusinessInfo;
+            get => isUpdatingBusinessInfo;
             set
             {
-                _isUpdatingBusinessInfo = value;
+                isUpdatingBusinessInfo = value;
                 OnPropertyChanged(nameof(IsUpdatingBusinessInfo));
             }
         }
 
         public string NewAdmin
         {
-            get => _newAdmin;
+            get => newAdmin;
             set
             {
-                _newAdmin = value;
+                newAdmin = value;
                 OnPropertyChanged();
             }
         }
 
         public string PhoneNumber
         {
-            get => _phoneNumber;
+            get => phoneNumber;
             set
             {
-                _phoneNumber = value;
+                phoneNumber = value;
                 OnPropertyChanged();
             }
         }
 
         public string EmailAddress
         {
-            get => _emailAddress;
+            get => emailAddress;
             set
             {
-                _emailAddress = value;
+                emailAddress = value;
                 OnPropertyChanged();
             }
         }
 
         public string Website
         {
-            get => _website;
+            get => website;
             set
             {
-                _website = value;
+                website = value;
                 OnPropertyChanged();
             }
         }
 
         public string Address
         {
-            get => _address;
+            get => address;
             set
             {
-                _address = value;
+                address = value;
                 OnPropertyChanged();
             }
         }
@@ -93,10 +88,10 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                if (_authenticationService.GetIsLoggedIn())
+                if (authenticationService.GetIsLoggedIn())
                 {
-                    return _businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
-                        _authenticationService.CurrentUser.Username);
+                    return businessService.IsUserManagerOfBusiness(currentBusiness.Id,
+                        authenticationService.CurrentUser.Username);
                 }
                 else
                 {
@@ -105,31 +100,31 @@ namespace bussiness_social_media.MVVM.ViewModel
             }
             set
             {
-                _isCurrentUserManager = value;
+                isCurrentUserManager = value;
                 OnPropertyChanged(nameof(IsCurrentUserManager));
             }
         }
 
         public INavigationService Navigation
         {
-            get => _navigation;
+            get => navigation;
             set
             {
-                _navigation = value;
+                navigation = value;
                 OnPropertyChanged();
             }
         }
 
-        public Business CurrentBusiness 
+        public Business CurrentBusiness
         {
             get
             {
-                return changeCurrrentBusiness();
+                return ChangeCurrentBusiness();
             }
             set
             {
-                _currentBusiness = value;
-                OnPropertyChanged(nameof(CurrentBusiness)); 
+                currentBusiness = value;
+                OnPropertyChanged(nameof(CurrentBusiness));
             }
         }
 
@@ -147,8 +142,8 @@ namespace bussiness_social_media.MVVM.ViewModel
         public BusinessProfileAboutViewModel(INavigationService navigationService, IBusinessService businessService, AuthenticationService authenticationService)
         {
             Navigation = navigationService;
-            _businessService = businessService;
-            _authenticationService = authenticationService;
+            this.businessService = businessService;
+            this.authenticationService = authenticationService;
             NavigateToPostsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileViewModel>(); }, o => true);
             NavigateToReviewsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileReviewsViewModel>(); }, o => true);
             NavigateToContactCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileContactViewModel>(); }, o => true);
@@ -159,44 +154,42 @@ namespace bussiness_social_media.MVVM.ViewModel
             UpdateWebsiteCommand = new RelayCommand(UpdateWebsite, o => true);
             AddNewAdministratorCommand = new RelayCommand(AddNewAdministrator, o => true);
             NavigateToAboutCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileAboutViewModel>(); }, o => true);
-            changeCurrrentBusiness();
-            
-
+            ChangeCurrentBusiness();
         }
 
-        public Business changeCurrrentBusiness()
+        public Business ChangeCurrentBusiness()
         {
-            return  _businessService.GetBusinessById(_navigation.BusinessId);
+            return businessService.GetBusinessById(navigation.BusinessId);
         }
 
         private void AddNewAdministrator(object parameter)
         {
-            _businessService.GetBusinessById(CurrentBusiness.Id).AddManager(NewAdmin);
-            CurrentBusiness = _businessService.GetBusinessById(CurrentBusiness.Id);
+            businessService.GetBusinessById(CurrentBusiness.Id).AddManager(NewAdmin);
+            CurrentBusiness = businessService.GetBusinessById(CurrentBusiness.Id);
         }
 
         private void UpdatePhoneNumber(object parameter)
         {
-           _businessService.GetBusinessById(CurrentBusiness.Id).SetPhoneNumber(PhoneNumber);
-           CurrentBusiness = _businessService.GetBusinessById(CurrentBusiness.Id);
+            businessService.GetBusinessById(CurrentBusiness.Id).SetPhoneNumber(PhoneNumber);
+            CurrentBusiness = businessService.GetBusinessById(CurrentBusiness.Id);
         }
 
         private void UpdateAddress(object parameter)
         {
-            _businessService.GetBusinessById(CurrentBusiness.Id).SetAddress(Address);
-            CurrentBusiness = _businessService.GetBusinessById(CurrentBusiness.Id);
+            businessService.GetBusinessById(CurrentBusiness.Id).SetAddress(Address);
+            CurrentBusiness = businessService.GetBusinessById(CurrentBusiness.Id);
         }
 
         private void UpdateEmail(object parameter)
         {
-            _businessService.GetBusinessById(CurrentBusiness.Id).SetEmail(EmailAddress);
-            CurrentBusiness = _businessService.GetBusinessById(CurrentBusiness.Id);
+            businessService.GetBusinessById(CurrentBusiness.Id).SetEmail(EmailAddress);
+            CurrentBusiness = businessService.GetBusinessById(CurrentBusiness.Id);
         }
 
         private void UpdateWebsite(object parameter)
         {
-            _businessService.GetBusinessById(CurrentBusiness.Id).SetWebsite(Website);
-            CurrentBusiness = _businessService.GetBusinessById(CurrentBusiness.Id);
+            businessService.GetBusinessById(CurrentBusiness.Id).SetWebsite(Website);
+            CurrentBusiness = businessService.GetBusinessById(CurrentBusiness.Id);
         }
 
         private void ToggleUpdateForm(object parameter)

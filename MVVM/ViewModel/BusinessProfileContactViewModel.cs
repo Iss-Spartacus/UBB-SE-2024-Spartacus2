@@ -1,34 +1,30 @@
-﻿using business_social_media.Services;
-using bussiness_social_media.Core;
-using bussiness_social_media.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
 
-namespace bussiness_social_media.MVVM.ViewModel
+namespace Bussiness_social_media.MVVM.ViewModel
 {
     internal class BusinessProfileContactViewModel : Core.ViewModel
     {
-        private INavigationService _navigation;
-        private IBusinessService _businessService;
-        private AuthenticationService _authenticationService;
+        private INavigationService navigation;
+        private IBusinessService businessService;
+        private AuthenticationService authenticationService;
 
-        public Business _currentBusiness;
-        public FAQ _currentFAQ;
-        public FAQ _noFAQ;
-
-
-        private bool _isCurrentUserManager;
+        public Business CurrentBusiness;
+        public FAQ CurrentFAQ;
+        public FAQ NoFAQ;
+        private bool isCurrentUserManager;
 
         public ObservableCollection<FAQ> FAQs
         {
             get
             {
-
-                return new ObservableCollection<FAQ>(_businessService.GetAllFAQsOfBusiness(CurrentBusiness.Id));
+                return new ObservableCollection<FAQ>(businessService.GetAllFAQsOfBusiness(CurrentBusiness.Id));
             }
         }
 
@@ -36,7 +32,7 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                return _currentFAQ.Answer;
+                return CurrentFAQ.Answer;
             }
         }
 
@@ -45,10 +41,10 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                if (_authenticationService.GetIsLoggedIn())
+                if (authenticationService.GetIsLoggedIn())
                 {
-                    return _businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
-                        _authenticationService.CurrentUser.Username);
+                    return businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
+                        authenticationService.CurrentUser.Username);
                 }
                 else
                 {
@@ -57,17 +53,17 @@ namespace bussiness_social_media.MVVM.ViewModel
             }
             set
             {
-                _isCurrentUserManager = value;
+                isCurrentUserManager = value;
                 OnPropertyChanged(nameof(IsCurrentUserManager));
             }
         }
 
         public INavigationService Navigation
         {
-            get => _navigation;
+            get => navigation;
             set
             {
-                _navigation = value;
+                navigation = value;
                 OnPropertyChanged();
             }
         }
@@ -80,17 +76,17 @@ namespace bussiness_social_media.MVVM.ViewModel
             }
             set
             {
-                _currentBusiness = value;
+                CurrentBusiness = value;
                 OnPropertyChanged(nameof(CurrentBusiness));
             }
         }
 
         public FAQ CurrentFAQ
         {
-            get => _currentFAQ;
+            get => CurrentFAQ;
             set
             {
-                _currentFAQ = value;
+                CurrentFAQ = value;
                 OnPropertyChanged(nameof(CurrentFAQ));
             }
         }
@@ -106,15 +102,15 @@ namespace bussiness_social_media.MVVM.ViewModel
         public BusinessProfileContactViewModel(INavigationService navigationService, IBusinessService businessService, AuthenticationService authenticationService)
         {
             Navigation = navigationService;
-            _businessService = businessService;
-            _authenticationService = authenticationService;
+            this.businessService = businessService;
+            this.authenticationService = authenticationService;
             NavigateToPostsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileViewModel>(); }, o => true);
             NavigateToReviewsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileReviewsViewModel>(); }, o => true);
             NavigateToContactCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileContactViewModel>(); }, o => true);
             NavigateToAboutCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileAboutViewModel>(); }, o => true);
             changeCurrrentBusiness();
-            _noFAQ = new FAQ(0, "FAQs...", "--    --\n    \\__/");
-            _currentFAQ = _noFAQ;
+            NoFAQ = new FAQ(0, "FAQs...", "--    --\n    \\__/");
+            CurrentFAQ = NoFAQ;
 
             FAQCommand = new RelayCommand(o => {
                 if (o is FAQ faq)
@@ -128,13 +124,13 @@ namespace bussiness_social_media.MVVM.ViewModel
 
         public Business changeCurrrentBusiness()
         {
-            CurrentFAQ = _noFAQ;
-            return _businessService.GetBusinessById(_navigation.BusinessId);
+            CurrentFAQ = NoFAQ;
+            return businessService.GetBusinessById(navigation.BusinessId);
         }
 
         public FAQ changeCurrrentFAQ()
         {
-            List<FAQ> faqList = _businessService.GetAllFAQsOfBusiness(CurrentBusiness.Id);
+            List<FAQ> faqList = businessService.GetAllFAQsOfBusiness(CurrentBusiness.Id);
             return faqList[0];
         }
     }

@@ -1,11 +1,11 @@
-﻿using bussiness_social_media.MVVM.Model.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bussiness_social_media.MVVM.Model.Repository;
 
-namespace bussiness_social_media.Services
+namespace Bussiness_social_media.Services
 {
     public interface IReviewService
     {
@@ -18,42 +18,42 @@ namespace bussiness_social_media.Services
     }
     public class ReviewService : IReviewService
     {
-        private IReviewRepository _reviewRepository;
+        private IReviewRepository reviewRepository;
 
         public ReviewService(IReviewRepository reviewRepository)
         {
-            _reviewRepository = reviewRepository;
+            this.reviewRepository = reviewRepository;
         }
 
         public int AddReview(string userName, int rating, string comment, string title, string imagePath)
         {
-            return _reviewRepository.AddReview(userName, rating, comment, title, imagePath, DateTime.Now);
+            return reviewRepository.AddReview(userName, rating, comment, title, imagePath, DateTime.Now);
         }
 
         public void DeletePost(int id)
         {
-            _reviewRepository.DeleteReview(id);
+            reviewRepository.DeleteReview(id);
         }
 
         public Review GetReviewById(int id)
         {
-            return _reviewRepository.GetReviewById(id);
+            return reviewRepository.GetReviewById(id);
         }
 
         public List<Review> GetReviews()
         {
-            return _reviewRepository.GetAllReviews();
+            return reviewRepository.GetAllReviews();
         }
 
         public void UpdateReview(int id, int newRating, string newComment, string newTitle, string newImagePath)
         {
-            _reviewRepository.UpdateReview(id, newRating, newComment, newTitle, newImagePath);
+            reviewRepository.UpdateReview(id, newRating, newComment, newTitle, newImagePath);
         }
 
         public void LinkAdminCommentIdToReview(int reviewId, int commentId)
         {
-            _reviewRepository.GetReviewById(reviewId).AdminCommentId = commentId;
-            _reviewRepository.ForceReviewSavingToXml();
+            reviewRepository.GetReviewById(reviewId).AdminCommentId = commentId;
+            reviewRepository.ForceReviewSavingToXml();
         }
     }
 }

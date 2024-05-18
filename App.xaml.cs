@@ -1,22 +1,20 @@
-﻿using bussiness_social_media.Services;
-using bussiness_social_media.Core;
-using bussiness_social_media.MVVM.ViewModel;
-using Microsoft.Extensions.DependencyInjection;
-using System.IO;
+﻿using System.IO;
 using System.Configuration;
 using System.Data;
 using System.Windows;
-using bussiness_social_media.MVVM.Model.Repository;
 using System.Reflection.PortableExecutable;
-using business_social_media.Services;
 using System.Xml.Serialization;
 using System.Xml;
-
-namespace bussiness_social_media
+using Bussiness_social_media.MVVM.Model.Repository;
+using Bussiness_social_media.Services;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.MVVM.ViewModel;
+using Microsoft.Extensions.DependencyInjection;
+namespace Bussiness_social_media
 {
     public partial class App : Application
     {
-        private readonly ServiceProvider _serviceProvider;
+        private readonly ServiceProvider serviceProvider;
 
         public App()
         {
@@ -66,7 +64,7 @@ namespace bussiness_social_media
             services.AddSingleton<IFAQRepository>(provider => new FAQRepository(faqsXmlFilePath));
             services.AddSingleton<ICommentRepository>(provider => new CommentRepository(commentsXmlFilePath));
 
-            services.AddSingleton <BusinessProfileViewModel>();
+            services.AddSingleton<BusinessProfileViewModel>();
             services.AddSingleton<BusinessProfileReviewsViewModel>();
             services.AddSingleton<BusinessProfileContactViewModel>();
             services.AddSingleton<BusinessProfileAboutViewModel>();
@@ -74,24 +72,19 @@ namespace bussiness_social_media
             services.AddSingleton<AuthenticationService>();
             services.AddSingleton<RegisterViewModel>();
             services.AddSingleton<CreatePostViewModel>();
-
-
             // Delegation
             services.AddSingleton<Func<Type, ViewModel>>(serviceProvider => viewModelType => (ViewModel)serviceProvider.GetRequiredService(viewModelType));
 
-            _serviceProvider = services.BuildServiceProvider();
+            serviceProvider = services.BuildServiceProvider();
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            //var loginWindow = new Window();
-            //loginWindow.Content = _serviceProvider.GetRequiredService<LoginViewModel>();
-            //loginWindow.ShowDialog();
-
-            var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
+            // var loginWindow = new Window();
+            // loginWindow.Content = _serviceProvider.GetRequiredService<LoginViewModel>();
+            // loginWindow.ShowDialog();
+            var mainWindow = serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
-
-
             base.OnStartup(e);
         }
     }

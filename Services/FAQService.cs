@@ -1,11 +1,10 @@
-﻿using bussiness_social_media.MVVM.Model.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace bussiness_social_media.Services
+using Bussiness_social_media.MVVM.Model.Repository;
+namespace Bussiness_social_media.Services
 {
     public interface IFAQService
     {
@@ -17,35 +16,35 @@ namespace bussiness_social_media.Services
     }
     public class FAQService : IFAQService
     {
-        private IFAQRepository _faqRepository;
+        private IFAQRepository faqRepository;
 
         public FAQService(IFAQRepository faqRepository)
         {
-            _faqRepository = faqRepository;
+            this.faqRepository = faqRepository;
         }
         public int AddFAQ(string faqQuestion, string faqAnswer)
         {
-            return _faqRepository.AddFAQ(faqQuestion, faqAnswer);
+            return faqRepository.AddFAQ(faqQuestion, faqAnswer);
         }
 
         public void DeleteFAQ(int faqID)
         {
-            _faqRepository.DeleteFAQ(faqID);
+            faqRepository.DeleteFAQ(faqID);
         }
 
         public List<FAQ> GetAllFAQs()
         {
-            return _faqRepository.GetAllFAQs();
+            return faqRepository.GetAllFAQs();
         }
 
         public FAQ GetFAQById(int faqID)
         {
-            return _faqRepository.GetFAQById(faqID);
+            return faqRepository.GetFAQById(faqID);
         }
 
         public void UpdateFAQ(int faqID, string newFaqQuestion, string newFaqAnswer)
         {
-            _faqRepository.UpdateFAQ(faqID, newFaqQuestion, newFaqAnswer);
+            faqRepository.UpdateFAQ(faqID, newFaqQuestion, newFaqAnswer);
         }
     }
 }

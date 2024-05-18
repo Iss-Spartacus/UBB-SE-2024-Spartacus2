@@ -9,7 +9,7 @@ using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace bussiness_social_media.MVVM.Model.Repository
+namespace Bussiness_social_media.MVVM.Model.Repository
 {
     public interface IBusinessRepository
     {
@@ -22,23 +22,24 @@ namespace bussiness_social_media.MVVM.Model.Repository
         List<Business> SearchBusinesses(string keyword);
         void SaveBusinessesToXml();
     }
+
     public class BusinessRepository : IBusinessRepository
     {
-        private List<Business> _businesses;
-        private string _xmlFilePath;
+        private List<Business> businesses;
+        private string xmlFilePath;
 
-        private static Random _random = new Random();
+        private static Random random = new Random();
+
         public BusinessRepository()
         {
-            _businesses = new List<Business>();
-            generate10RandomBusineses();
+            businesses = new List<Business>();
+            Generate10RandomBusineses();
         }
 
         public BusinessRepository(string xmlFilePath)
         {
-            _xmlFilePath = xmlFilePath;
-            _businesses = new List<Business>();
-            
+            this.xmlFilePath = xmlFilePath;
+            businesses = new List<Business>();
             LoadBusinessesFromXml();
         }
 
@@ -47,7 +48,7 @@ namespace bussiness_social_media.MVVM.Model.Repository
             SaveBusinessesToXml();
         }
 
-        private void generate10RandomBusineses()
+        private void Generate10RandomBusineses()
         {
             string[] categories = { "Food", "Tech", "Retail", "Finance", "Services" };
             string[] namePrefixes = { "The", "Super", "Awesome", "Modern", "Innovative" };
@@ -55,20 +56,18 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
             for (int i = 0; i < 10; i++)
             {
-                string name = namePrefixes[_random.Next(namePrefixes.Length)] + " " + nameSuffixes[_random.Next(nameSuffixes.Length)];
+                string name = $"{namePrefixes[random.Next(namePrefixes.Length)]} {nameSuffixes[random.Next(nameSuffixes.Length)]}";
                 string description = "A cool business doing cool things!";
-                string category = categories[_random.Next(categories.Length)];
+                string category = categories[random.Next(categories.Length)];
 
                 string binDirectory = "\\bin";
                 string basePath = AppDomain.CurrentDomain.BaseDirectory;
                 string pathUntilBin;
 
-
                 int index = basePath.IndexOf(binDirectory);
                 pathUntilBin = basePath.Substring(0, index);
 
                 // Placeholder values for logo, banner, etc.
-
                 string logoShort = $"Assets\\Images\\scat{i + 1}.jpg";
                 string logo = Path.Combine(pathUntilBin, logoShort);
                 string bannerShort = $"Assets\\Images\\banner{i + 1}.jpg";
@@ -90,13 +89,12 @@ namespace bussiness_social_media.MVVM.Model.Repository
         {
             try
             {
-                if (File.Exists(_xmlFilePath))
+                if (File.Exists(xmlFilePath))
                 {
                     XmlSerializer serializer = new XmlSerializer(typeof(Business), new XmlRootAttribute("Business"));
+                    businesses = new List<Business>();
 
-                    _businesses = new List<Business>();
-
-                    using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Open))
+                    using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Open))
                     {
                         using (XmlReader reader = XmlReader.Create(fileStream))
                         {
@@ -105,7 +103,7 @@ namespace bussiness_social_media.MVVM.Model.Repository
                             {
                                 // Deserialize each Business element and add it to the list
                                 Business business = (Business)serializer.Deserialize(reader);
-                                _businesses.Add(business);
+                                businesses.Add(business);
                             }
                         }
                     }
@@ -113,7 +111,7 @@ namespace bussiness_social_media.MVVM.Model.Repository
                 else
                 {
                     // Handle the case where the XML file doesn't exist
-                    _businesses = new List<Business>();
+                    businesses = new List<Business>();
                 }
             }
             catch (Exception ex)
@@ -126,43 +124,38 @@ namespace bussiness_social_media.MVVM.Model.Repository
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Business>), new XmlRootAttribute("ArrayOfBusiness"));
 
-            using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Create))
+            using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Create))
             {
-                serializer.Serialize(fileStream, _businesses);
+                serializer.Serialize(fileStream, businesses);
             }
         }
 
         private string GenerateRandomPhoneNumber()
         {
-            return $"{_random.Next(100, 999)}-{_random.Next(100, 999)}-{_random.Next(1000, 9999)}";
-        }
-        public List<Business> GetAllBusinesses()
-        {
-            return _businesses;
+            return $"{random.Next(100, 999)}-{random.Next(100, 999)}-{random.Next(1000, 9999)}";
         }
 
-        public Business GetBusinessById(int id)
-        {
-            return _businesses.FirstOrDefault(b => b.Id == id);
-        }
+        public List<Business> GetAllBusinesses() => businesses;
+
+        public Business GetBusinessById(int id) => businesses.FirstOrDefault(b => b.Id == id);
 
         public void AddBusiness(string name, string description, string category, string logo, string banner, string phoneNumber, string email, string website, string address, DateTime createdAt, List<string> managerUsernames, List<int> postIds, List<int> reviewIds, List<int> faqIds)
         {
             Business business = new Business(GetNextId(), name, description, category, logo, banner, phoneNumber, email, website, address, createdAt, managerUsernames, postIds, reviewIds, faqIds);
-            _businesses.Add(business);
+            businesses.Add(business);
             SaveBusinessesToXml();
         }
 
         public void AddBusiness(string name, string description, string category, string logoShort, string logo, string bannerShort, string banner, string phoneNumber, string email, string website, string address, DateTime createdAt, List<string> managerUsernames, List<int> postIds, List<int> reviewIds, List<int> faqIds)
         {
             Business business = new Business(GetNextId(), name, description, category, logoShort, logo, bannerShort, banner, phoneNumber, email, website, address, createdAt, managerUsernames, postIds, reviewIds, faqIds);
-            _businesses.Add(business);
+            businesses.Add(business);
             SaveBusinessesToXml();
         }
 
         public void UpdateBusiness(Business business)
         {
-            var existingBusiness = _businesses.FirstOrDefault(b => b.Id == business.Id);
+            var existingBusiness = businesses.FirstOrDefault(b => b.Id == business.Id);
             if (existingBusiness != null)
             {
                 existingBusiness.SetName(business.Name);
@@ -184,34 +177,31 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
         public void DeleteBusiness(int id)
         {
-            var businessToRemove = _businesses.FirstOrDefault(b => b.Id == id);
+            var businessToRemove = businesses.FirstOrDefault(b => b.Id == id);
             if (businessToRemove != null)
             {
-                _businesses.Remove(businessToRemove);
+                businesses.Remove(businessToRemove);
                 SaveBusinessesToXml();
             }
         }
 
         private int GetNextId()
         {
-            return _businesses.Count > 0 ? _businesses.Max(b => b.Id) + 1 : 1;
+            return businesses.Count > 0 ? businesses.Max(b => b.Id) + 1 : 1;
         }
-
 
         public List<Business> SearchBusinesses(string keyword)
         {
             if (keyword == string.Empty)
             {
-                return _businesses;
+                return businesses;
             }
-            var filteredBusinesses = _businesses.Where(b =>
+            var filteredBusinesses = businesses.Where(b =>
             (string.IsNullOrEmpty(keyword) ||
             b.Name.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
             b.Category.Contains(keyword, StringComparison.OrdinalIgnoreCase) ||
-            b.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-            ).ToList();
+            b.Description.Contains(keyword, StringComparison.OrdinalIgnoreCase))).ToList();
             return filteredBusinesses;
-
         }
     }
 }

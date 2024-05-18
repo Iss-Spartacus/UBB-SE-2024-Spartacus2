@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -7,92 +6,71 @@ using System.Xml.Serialization;
 [Serializable]
 public class Account : IXmlSerializable
 {
-    private string _username;
-    private string _password;
-    private string _firstname;
-    private string _lastname;
-    private string _email;
-    private string _gender;
-    private DateTime _birthday;
+    private string username;
+    private string password;
+    private string firstname;
+    private string lastname;
+    private string email;
+    private string gender;
+    private DateTime birthday;
 
     public string Username
     {
-        get => _username;
-        set
-        {
-            _username = value;
-        }
+        get => username;
+        set => username = value;
     }
 
     public string Password
     {
-        get => _password;
-        set
-        {
-            _password = value;
-        }
+        get => password;
+        set => password = value;
     }
 
     public string Firstname
     {
-        get => _firstname;
-        set
-        {
-            _firstname = value;
-        }
+        get => firstname;
+        set => firstname = value;
     }
 
     public string Lastname
     {
-        get => _lastname;
-        set
-        {
-            _lastname = value;
-        }
+        get => lastname;
+        set => lastname = value;
     }
 
     public string Email
     {
-        get => _email;
-        set
-        {
-            _email = value;
-        }
+        get => email;
+        set => email = value;
     }
 
     public DateTime Birthday
     {
-        get => _birthday;
-        set
-        {
-            _birthday = value;
-        }
+        get => birthday;
+        set => birthday = value;
     }
 
     public string Gender
     {
-        get => _gender;
-        private set
-        {
-            _gender = value;
-        }
+        get => gender;
+        private set => gender = value;
     }
 
     public Account(string username, string password)
     {
-        _username = username;
-        _password = password;
+        this.username = username;
+        this.password = password;
     }
 
-    public Account(string username, string password,string firstname,string lastname,string email,string day,string month,string year,string gender)
+    public Account(string username, string password, string firstname, string lastname, string email, string day, string month, string year, string gender)
     {
-        _username = username;
-        _password = password;
-        _firstname = firstname;
-        _lastname = lastname;
-        _email = email;
-        _birthday = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
-        _gender = gender;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.birthday = new DateTime(int.Parse(year), int.Parse(month), int.Parse(day));
+        this.gender = gender;
     }
 
     public Account()
@@ -101,10 +79,10 @@ public class Account : IXmlSerializable
 
     public override string ToString()
     {
-        return $"Username: {_username}, Password: {_password}";
+        return $"Username: {username}, Password: {password}";
     }
 
-    public XmlSchema? GetSchema()
+    public XmlSchema GetSchema()
     {
         return null; // Not needed
     }
@@ -113,15 +91,25 @@ public class Account : IXmlSerializable
     {
         reader.ReadStartElement("Account"); // Move to the <Account> element
 
-        _username = reader.ReadElementString("_username");
-        _password = reader.ReadElementString("_password");
+        username = reader.ReadElementString(nameof(username));
+        password = reader.ReadElementString(nameof(password));
+        firstname = reader.ReadElementString(nameof(firstname));
+        lastname = reader.ReadElementString(nameof(lastname));
+        email = reader.ReadElementString(nameof(email));
+        gender = reader.ReadElementString(nameof(gender));
+        birthday = DateTime.Parse(reader.ReadElementString(nameof(birthday)));
 
         reader.ReadEndElement(); // Close the <Account> element
     }
 
     public void WriteXml(XmlWriter writer)
     {
-        writer.WriteElementString("_username", _username);
-        writer.WriteElementString("_password", _password);
+        writer.WriteElementString(nameof(username), username);
+        writer.WriteElementString(nameof(password), password);
+        writer.WriteElementString(nameof(firstname), firstname);
+        writer.WriteElementString(nameof(lastname), lastname);
+        writer.WriteElementString(nameof(email), email);
+        writer.WriteElementString(nameof(gender), gender);
+        writer.WriteElementString(nameof(birthday), birthday.ToString("yyyy-MM-dd"));
     }
 }

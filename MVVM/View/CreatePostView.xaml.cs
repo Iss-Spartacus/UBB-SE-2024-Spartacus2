@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace bussiness_social_media.MVVM.View
+namespace Bussiness_social_media.MVVM.View
 {
     /// <summary>
     /// Interaction logic for CreatePostView.xaml

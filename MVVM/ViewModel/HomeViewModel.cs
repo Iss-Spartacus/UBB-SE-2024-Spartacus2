@@ -1,5 +1,5 @@
-﻿using bussiness_social_media.Core;
-using bussiness_social_media.Services;
+﻿using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace bussiness_social_media.MVVM.ViewModel
+namespace Bussiness_social_media.MVVM.ViewModel
 {
     public class HomeViewModel : Core.ViewModel
     {

@@ -42,7 +42,9 @@ public class Business : IXmlSerializable
     public List<int> ReviewIds => reviewIds;
     public List<int> FaqIds => faqIds;
 
-    public Business() { }
+    public Business()
+    {
+    }
 
     public Business(int id, string name, string description, string category, string logo, string banner, string phoneNumber, string email, string website, string address, DateTime createdAt, List<string> managerUsernames, List<int> postIds, List<int> reviewIds, List<int> faqIds)
     {

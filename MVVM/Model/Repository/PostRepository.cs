@@ -1,9 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace bussiness_social_media.MVVM.Model.Repository
+namespace Bussiness_social_media.MVVM.Model.Repository
 {
     public interface IPostRepository
     {
@@ -17,16 +20,15 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
     public class PostRepository : IPostRepository
     {
-        private List<Post> _posts;
-        private string _xmlFilePath;
+        private List<Post> posts;
+        private string xmlFilePath;
 
-        private static Random _random = new Random();
-
+        private static Random random = new Random();
 
         public PostRepository(string xmlFilePath)
         {
-            _xmlFilePath = xmlFilePath;
-            _posts = new List<Post>();
+            this.xmlFilePath = xmlFilePath;
+            posts = new List<Post>();
             LoadPostsFromXml();
         }
 
@@ -39,67 +41,63 @@ namespace bussiness_social_media.MVVM.Model.Repository
         {
             try
             {
-                if (File.Exists(_xmlFilePath))
+                posts = new List<Post>();
+                if (File.Exists(xmlFilePath))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(Post), new XmlRootAttribute("Post"));
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Post>), new XmlRootAttribute("ArrayOfPost"));
 
-                    _posts = new List<Post>();
-
-                    using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Open))
+                    using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Open))
+                    using (XmlReader reader = XmlReader.Create(fileStream))
                     {
-                        using (XmlReader reader = XmlReader.Create(fileStream))
-                        {
-                            while (reader.ReadToFollowing("Post"))
-                            {
-                                Post post = (Post)serializer.Deserialize(reader);
-                                _posts.Add(post);
-                            }
-                        }
+                        posts = (List<Post>)serializer.Deserialize(reader);
                     }
-                }
-                else
-                {
-                    _posts = new List<Post>();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something terrible, terrible has happened during the execution of the program. Show this to your local IT guy. PostRepository.LoadPostsFromXml():" + ex.Message);
+                MessageBox.Show($"An error occurred while loading posts from XML: {ex.Message}");
             }
         }
 
         private void SavePostsToXml()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Post>), new XmlRootAttribute("ArrayOfPost"));
-
-            using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Create))
+            try
             {
-                serializer.Serialize(fileStream, _posts);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Post>), new XmlRootAttribute("ArrayOfPost"));
+
+                using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Create))
+                {
+                    serializer.Serialize(fileStream, posts);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving posts to XML: {ex.Message}");
             }
         }
 
         public List<Post> GetAllPosts()
         {
-            return _posts;
+            return posts;
         }
 
         public Post GetPostById(int id)
         {
-            return _posts.FirstOrDefault(p => p.Id == id);
+            return posts.FirstOrDefault(p => p.Id == id);
         }
 
         public int AddPost(DateTime creationDate, string imagePath, string caption)
         {
-            int newID = _getNextId();
+            int newID = GetNextId();
             Post post = new Post(newID, creationDate, imagePath, caption);
-            _posts.Add(post);
+            posts.Add(post);
             SavePostsToXml();
             return newID;
         }
 
         public void UpdatePost(Post post)
         {
-            var existingPost = _posts.FirstOrDefault(p => p.Id == post.Id);
+            var existingPost = posts.FirstOrDefault(p => p.Id == post.Id);
             if (existingPost != null)
             {
                 existingPost.SetNumberOfLikes(post.NumberOfLikes);
@@ -113,17 +111,17 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
         public void DeletePost(int id)
         {
-            var postToRemove = _posts.FirstOrDefault(p => p.Id == id);
+            var postToRemove = posts.FirstOrDefault(p => p.Id == id);
             if (postToRemove != null)
             {
-                _posts.Remove(postToRemove);
+                posts.Remove(postToRemove);
                 SavePostsToXml();
             }
         }
 
-        private int _getNextId()
+        private int GetNextId()
         {
-            return _posts.Count > 0 ? _posts.Max(p => p.Id) + 1 : 1;
+            return posts.Count > 0 ? posts.Max(p => p.Id) + 1 : 1;
         }
 
         public void ForcePostSavingToXml()

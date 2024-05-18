@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace bussiness_social_media.MVVM.Model.Repository
+namespace Bussiness_social_media.MVVM.Model.Repository
 {
     public interface IReviewRepository
     {
@@ -23,13 +20,13 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
     public class ReviewRepository : IReviewRepository
     {
-        private List<Review> _reviews;
-        private string _xmlFilePath;
+        private List<Review> reviews;
+        private string xmlFilePath;
 
         public ReviewRepository(string xmlFilePath)
         {
-            _xmlFilePath = xmlFilePath;
-            _reviews = new List<Review>();
+            this.xmlFilePath = xmlFilePath;
+            reviews = new List<Review>();
             LoadReviewsFromXml();
         }
 
@@ -40,64 +37,58 @@ namespace bussiness_social_media.MVVM.Model.Repository
 
         private void LoadReviewsFromXml()
         {
-            try{
-                if (File.Exists(_xmlFilePath))
+            try
+            {
+                reviews = new List<Review>();
+                if (File.Exists(xmlFilePath))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(Review), new XmlRootAttribute("Review"));
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Review>), new XmlRootAttribute("ArrayOfReview"));
 
-                    _reviews = new List<Review>();
-
-                    using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Open))
+                    using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Open))
+                    using (XmlReader reader = XmlReader.Create(fileStream))
                     {
-                        using (XmlReader reader = XmlReader.Create(fileStream))
-                        {
-                            // Move to the first Business element
-                            while (reader.ReadToFollowing("Review"))
-                            {
-                                // Deserialize each Business element and add it to the list
-                                Review review = (Review)serializer.Deserialize(reader);
-                                _reviews.Add(review);
-                            }
-                        }
+                        reviews = (List<Review>)serializer.Deserialize(reader);
                     }
-                }
-                else
-                {
-                    // Handle the case where the XML file doesn't exist
-                    _reviews = new List<Review>();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something terrible, terrible has happened during the execution of the program. Show this to your local IT guy. ReviewRepository.LoadReviewsFromXml():" + ex.Message);
+                MessageBox.Show($"An error occurred while loading reviews from XML: {ex.Message}");
             }
         }
 
         private void SaveReviewsToXml()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<Review>), new XmlRootAttribute("ArrayOfReview"));
-
-            using (FileStream fileStream = new FileStream(_xmlFilePath, FileMode.Create))
+            try
             {
-                serializer.Serialize(fileStream, _reviews);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Review>), new XmlRootAttribute("ArrayOfReview"));
+
+                using (FileStream fileStream = new FileStream(xmlFilePath, FileMode.Create))
+                {
+                    serializer.Serialize(fileStream, reviews);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving reviews to XML: {ex.Message}");
             }
         }
 
         public List<Review> GetAllReviews()
         {
-            return _reviews;
+            return reviews;
         }
 
         public Review GetReviewById(int id)
         {
-            return _reviews.FirstOrDefault(r => r.GetReviewId() == id);
+            return reviews.FirstOrDefault(r => r.Id == id);
         }
 
         public int AddReview(string userName, int rating, string comment, string title, string imagePath, DateTime dateOfCreation)
         {
             int newId = GetNextId();
             Review review = new Review(newId, userName, rating, comment, title, imagePath, dateOfCreation);
-            _reviews.Add(review);
+            reviews.Add(review);
             SaveReviewsToXml();
             return newId;
         }
@@ -107,27 +98,27 @@ namespace bussiness_social_media.MVVM.Model.Repository
             var existingReview = GetReviewById(id);
             if (existingReview != null)
             {
-                existingReview.SetUserName(newComment);
-                existingReview.SetRating(newRating);
-                existingReview.SetComment(newComment);
-                existingReview.SetTitle(newTitle);
-                existingReview.SetImagePath(newImagePath);
+                existingReview.Rating = newRating;
+                existingReview.Comment = newComment;
+                existingReview.Title = newTitle;
+                existingReview.ImagePath = newImagePath;
                 SaveReviewsToXml();
             }
         }
 
         public void DeleteReview(int id)
         {
-            var reviewToRemove = _reviews.FirstOrDefault(r => r.GetReviewId() == id);
+            var reviewToRemove = reviews.FirstOrDefault(r => r.Id == id);
             if (reviewToRemove != null)
             {
-                _reviews.Remove(reviewToRemove);
+                reviews.Remove(reviewToRemove);
                 SaveReviewsToXml();
             }
         }
+
         private int GetNextId()
         {
-            return _reviews.Count > 0 ? _reviews.Max(r => r.GetReviewId()) + 1 : 1;
+            return reviews.Count > 0 ? reviews.Max(r => r.Id) + 1 : 1;
         }
 
         public void ForceReviewSavingToXml()

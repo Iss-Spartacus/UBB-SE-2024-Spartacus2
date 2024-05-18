@@ -1,61 +1,61 @@
-﻿using bussiness_social_media.Core;
-using bussiness_social_media.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using business_social_media.Services; // Need to include this for ImageSource
+using Microsoft.Win32;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
+using Bussiness_social_media.MVVM.ViewModel;
 
-namespace bussiness_social_media.MVVM.ViewModel
+namespace Business_social_media.MVVM.ViewModel
 {
-    internal class BusinessProfileReviewsViewModel : Core.ViewModel
+    internal class BusinessProfileReviewsViewModel : Bussiness_social_media.Core.ViewModel
     {
-        private INavigationService _navigation;
-        private IBusinessService _businessService;
-        private readonly AuthenticationService _authenticationService;
-        private Business _currentBusiness;
-        private Review _currentReview;
-        private string _imagePath;
-        private List<Review> _reviewsList;
+        private INavigationService navigation;
+        private IBusinessService businessService;
+        private readonly AuthenticationService authenticationService;
+        private Business currentBusiness;
+        private Review currentReview;
+        private string imagePath;
+        private List<Review> reviewsList;
 
         // Property to hold the image source of the current business
-        private ImageSource _businessImage;
-        private string _comment;
-        private bool _isCurrentUserManager;
-        private string _title;
-        private int _rating;
+        private ImageSource businessImage;
+        private string comment;
+        private bool isCurrentUserManager;
+        private string title;
+        private int rating;
 
         public int Rating
         {
-            get => _rating;
+            get => rating;
             set
             {
-                _rating = value;
+                rating = value;
                 OnPropertyChanged(nameof(Rating));
             }
         }
 
         public string Title
         {
-            get => _title;
+            get => title;
             set
             {
-                _title = value;
+                title = value;
                 OnPropertyChanged(nameof(Title));
             }
         }
 
         public List<Review> ReviewsList
         {
-            get => _reviewsList;
+            get => reviewsList;
             set
             {
-                _reviewsList = value;
+                reviewsList = value;
                 OnPropertyChanged();
             }
         }
@@ -64,10 +64,10 @@ namespace bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                if (_authenticationService.GetIsLoggedIn())
+                if (authenticationService.GetIsLoggedIn())
                 {
-                    return !_businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
-                        _authenticationService.CurrentUser.Username);
+                    return !businessService.IsUserManagerOfBusiness(currentBusiness.Id,
+                        authenticationService.CurrentUser.Username);
                 }
                 else
                 {
@@ -76,26 +76,29 @@ namespace bussiness_social_media.MVVM.ViewModel
             }
             set
             {
-                _isCurrentUserManager = value;
+                isCurrentUserManager = value;
                 OnPropertyChanged(nameof(IsCurrentUserManager));
             }
         }
         public string Comment
         {
-            get => _comment; 
+            get => comment;
             set
             {
-                _comment = value;
+                comment = value;
                 OnPropertyChanged(nameof(Comment));
             }
         }
 
         public ImageSource BusinessImage
         {
-            get { return new BitmapImage(new Uri(CurrentBusiness.Logo)); }
+            get
+            {
+                return new BitmapImage(new Uri(currentBusiness.Logo));
+            }
             set
             {
-                _businessImage = value;
+                businessImage = value;
                 OnPropertyChanged(nameof(BusinessImage));
             }
         }
@@ -107,20 +110,20 @@ namespace bussiness_social_media.MVVM.ViewModel
 
         public string ImagePath
         {
-            get => _imagePath;
+            get => imagePath;
             set
             {
-                _imagePath = value;
+                imagePath = value;
                 OnPropertyChanged();
             }
         }
 
         public INavigationService Navigation
         {
-            get => _navigation;
+            get => navigation;
             set
             {
-                _navigation = value;
+                navigation = value;
                 OnPropertyChanged();
             }
         }
@@ -135,44 +138,42 @@ namespace bussiness_social_media.MVVM.ViewModel
         public BusinessProfileReviewsViewModel(INavigationService navigationService, IBusinessService businessService, AuthenticationService authenticationService)
         {
             Navigation = navigationService;
-            _businessService = businessService;
-            _authenticationService = authenticationService;
+            this.businessService = businessService;
+            this.authenticationService = authenticationService;
             NavigateToPostsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileViewModel>(); }, o => true);
             NavigateToReviewsCommand = new RelayCommand(o => { Navigation.NavigateTo<CreateNewBusinessViewModel>(); }, o => true);
             NavigateToContactCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileContactViewModel>(); }, o => true);
             NavigateToAboutCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileAboutViewModel>(); }, o => true);
             AddImageCommand = new RelayCommand(o => { ExecuteAddImage(); }, o => true);
             LeaveReviewCommand = new RelayCommand(o => { LeaveReview(); }, o => true);
-            _currentBusiness = ChangeCurrentBusiness();
-            ImageSource img = new BitmapImage(new Uri(_currentBusiness.Logo));
+            currentBusiness = ChangeCurrentBusiness();
+            ImageSource img = new BitmapImage(new Uri(currentBusiness.Logo));
             BusinessImage = img;
 
-            _reviewsList = _businessService.GetAllReviewsForBusiness(CurrentBusiness.Id);
-            
+            reviewsList = businessService.GetAllReviewsForBusiness(CurrentBusiness.Id);
         }
         private void LeaveReview()
         {
-            if (_authenticationService.GetIsLoggedIn())
+            if (authenticationService.GetIsLoggedIn())
             {
-                string userName = _authenticationService.CurrentUser.Username;
-                int businessId = _currentBusiness.Id;
-                int rating = Rating; 
-                string comment = Comment; 
+                string userName = authenticationService.CurrentUser.Username;
+                int businessId = currentBusiness.Id;
+                int rating = Rating;
+                string comment = Comment;
                 string title = Title;
                 string imagePath = ImagePath;
-                _businessService.CreateReviewAndAddItToBusiness(businessId, userName, rating, comment, title, imagePath);
-                _reviewsList = _businessService.GetAllReviewsForBusiness(businessId);
+                businessService.CreateReviewAndAddItToBusiness(businessId, userName, rating, comment, title, imagePath);
+                reviewsList = businessService.GetAllReviewsForBusiness(businessId);
                 OnPropertyChanged(nameof(ReviewsList));
             }
             else
             {
                 MessageBox.Show("Please log in to leave a review.");
             }
-
         }
         public Business ChangeCurrentBusiness()
         {
-            return _businessService.GetBusinessById(_navigation.BusinessId);
+            return businessService.GetBusinessById(navigation.BusinessId);
         }
 
         private void ExecuteAddImage()
