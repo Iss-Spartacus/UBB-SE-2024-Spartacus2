@@ -1,42 +1,37 @@
-﻿using Bussiness_social_media.Core;
-using Bussiness_social_media.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Navigation;
-using business_social_media.Services;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
 
 namespace Bussiness_social_media.MVVM.ViewModel
 {
-    class UserManagedBusinessPagesViewModel : Core.ViewModel
+    public class UserManagedBusinessPagesViewModel : Core.ViewModel
     {
-        private readonly IBusinessService _businessService;
-        private INavigationService _navigation;
-        private readonly AuthenticationService _authenticationService;
-        private string _userId;
-        private string _noBusinessMessage;
+        private readonly IBusinessService businessService;
+        private INavigationService navigation;
+        private readonly AuthenticationService authenticationService;
+        private string userId;
+        private string noBusinessMessage;
 
         public string UserId
         {
-            get => _userId;
+            get => userId;
             set
             {
-                _userId = value;
+                userId = value;
                 OnPropertyChanged();
             }
         }
 
         public RelayCommand NavigateToBusinessProfileViewCommand { get; set; }
+
         public ObservableCollection<Business> Businesses
         {
             get
             {
-                UserId = _authenticationService.GetIsLoggedIn() ? _authenticationService.CurrentUser.Username : string.Empty;
-                NoBusinessMessage = UserId == string.Empty ? "" : "You are not managing any businesses";
-                return new ObservableCollection<Business>(_businessService.GetBusinessesManagedBy(UserId));
+                UserId = authenticationService.GetIsLoggedIn() ? authenticationService.CurrentUser.Username : string.Empty;
+                NoBusinessMessage = UserId == string.Empty ? string.Empty : "You are not managing any businesses";
+                return new ObservableCollection<Business>(businessService.GetBusinessesManagedBy(UserId));
             }
         }
 
@@ -44,9 +39,9 @@ namespace Bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                if (_authenticationService.GetIsLoggedIn())
+                if (authenticationService.GetIsLoggedIn())
                 {
-                    return "";
+                    return string.Empty;
                 }
                 else
                 {
@@ -55,17 +50,17 @@ namespace Bussiness_social_media.MVVM.ViewModel
             }
             set
             {
-                _noBusinessMessage = value;
+                noBusinessMessage = value;
                 OnPropertyChanged();
             }
         }
 
         public INavigationService NavigationService
         {
-            get => _navigation;
+            get => navigation;
             set
             {
-                _navigation = value;
+                navigation = value;
                 OnPropertyChanged();
             }
         }
@@ -73,11 +68,9 @@ namespace Bussiness_social_media.MVVM.ViewModel
         public UserManagedBusinessPagesViewModel(INavigationService navigationService, IBusinessService businessService, AuthenticationService authenticationService)
         {
             NavigationService = navigationService;
-            _businessService = businessService;
-            _authenticationService = authenticationService;
-
-            UserId = _authenticationService.GetIsLoggedIn() ? _authenticationService.CurrentUser.Username : string.Empty;
-
+            this.businessService = businessService;
+            this.authenticationService = authenticationService;
+            UserId = authenticationService.GetIsLoggedIn() ? authenticationService.CurrentUser.Username : string.Empty;
             NavigateToBusinessProfileViewCommand = new RelayCommand(o =>
             {
                 if (o is Business business)
@@ -86,10 +79,6 @@ namespace Bussiness_social_media.MVVM.ViewModel
                     NavigationService.NavigateTo<BusinessProfileViewModel>();
                 }
             }, o => true);
-            _businessService = businessService;
-            _businessService = businessService;
         }
-
-       
     }
 }

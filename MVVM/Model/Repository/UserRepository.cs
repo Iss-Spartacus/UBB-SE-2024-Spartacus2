@@ -13,12 +13,14 @@ namespace Bussiness_social_media.MVVM.Model.Repository
     public interface IUserRepository
     {
         List<Account> GetAllAccounts();
+        public List<Account> GetAllUsers();
         Account GetAccountByUsername(string username);
         void AddAccount(Account account);
         void DeleteAccount(string username);
         bool UsernameExists(string username);
         bool IsCredentialsValid(string username, string password);
         void ForceAccountSavingToXml();
+        public string GetMd5Hash(string input);
     }
 
     public class UserRepository : IUserRepository
@@ -58,6 +60,11 @@ namespace Bussiness_social_media.MVVM.Model.Repository
             {
                 MessageBox.Show($"An error occurred while loading accounts from XML: {ex.Message}");
             }
+        }
+
+        public List<Account> GetAllUsers()
+        {
+            return accounts;
         }
 
         private void SaveAccountsToXml()

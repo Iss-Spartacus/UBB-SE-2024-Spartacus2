@@ -10,10 +10,9 @@ using Microsoft.Win32;
 using Bussiness_social_media.Core;
 using Bussiness_social_media.Services;
 using Bussiness_social_media.MVVM.ViewModel;
-
-namespace Business_social_media.MVVM.ViewModel
+namespace Bussiness_social_media.MVVM.ViewModel
 {
-    internal class BusinessProfileReviewsViewModel : Bussiness_social_media.Core.ViewModel
+    public class BusinessProfileReviewsViewModel : Core.ViewModel
     {
         private INavigationService navigation;
         private IBusinessService businessService;

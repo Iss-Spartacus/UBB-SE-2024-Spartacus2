@@ -7,7 +7,7 @@ using Bussiness_social_media.Core;
 using Bussiness_social_media.Services;
 using Bussiness_social_media.MVVM.ViewModel;
 
-namespace Business_social_media.MVVM.ViewModel
+namespace Bussiness_social_media.MVVM.ViewModel
 {
     internal class BusinessProfileAboutViewModel : Bussiness_social_media.Core.ViewModel
     {

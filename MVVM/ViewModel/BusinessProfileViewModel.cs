@@ -8,42 +8,39 @@ using System.Windows.Navigation;
 using System.Windows;
 using Bussiness_social_media.Core;
 using Bussiness_social_media.Services;
+using Bussiness_social_media.MVVM.ViewModel;
 
 public class PostAndComments
 {
     public Post Post { get; set; }
-    public ObservableCollection<Comment> Comments
-    {
-        get;
-        set;
-    }
+    public ObservableCollection<Comment> Comments { get; set; }
 
     public PostAndComments(Post post, List<Comment> comments)
     {
         Post = post;
-        Comments = [.. comments];
+        Comments = new ObservableCollection<Comment>(comments);
     }
 }
 
 namespace Bussiness_social_media.MVVM.ViewModel
 {
-    class BusinessProfileViewModel : Core.ViewModel
+    internal class BusinessProfileViewModel : Core.ViewModel
     {
-        private INavigationService _navigation;
-        private IBusinessService _businessService;
-        private readonly AuthenticationService _authenticationService;
-        private List<Post> _postList;
-        private Business _currentBusiness;
-        private bool _isCurrentUserManager;
+        private INavigationService navigationService;
+        private IBusinessService businessService;
+        private AuthenticationService authenticationService;
+        private List<Post> postList;
+        public Business MyCurrentBusiness;
+        private bool isCurrentUserManager;
 
         public bool IsCurrentUserManager
         {
             get
             {
-                if (_authenticationService.GetIsLoggedIn())
+                if (authenticationService.GetIsLoggedIn())
                 {
-                    return _businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
-                        _authenticationService.CurrentUser.Username);
+                    return businessService.IsUserManagerOfBusiness(CurrentBusiness.Id,
+                        authenticationService.CurrentUser.Username);
                 }
                 else
                 {
@@ -52,42 +49,41 @@ namespace Bussiness_social_media.MVVM.ViewModel
             }
             set
             {
-                _isCurrentUserManager = value;
+                isCurrentUserManager = value;
                 OnPropertyChanged(nameof(IsCurrentUserManager));
             }
         }
 
         public INavigationService Navigation
         {
-            get => _navigation;
+            get => navigationService;
             set
             {
-                _navigation = value;
+                navigationService = value;
                 OnPropertyChanged();
             }
         }
 
         public IBusinessService BusinessService
         {
-            get => _businessService;
+            get => businessService;
             set
             {
-                _businessService = value;
+                businessService = value;
                 OnPropertyChanged();
             }
         }
 
-        public Business CurrentBusiness 
+        public Business CurrentBusiness
         {
-
             get
             {
-                return changeCurrrentBusiness();
+                return ChangeCurrentBusiness();
             }
             set
             {
-                _currentBusiness = value;
-                OnPropertyChanged(nameof(CurrentBusiness)); 
+                MyCurrentBusiness = value;
+                OnPropertyChanged(nameof(CurrentBusiness));
             }
         }
 
@@ -97,45 +93,40 @@ namespace Bussiness_social_media.MVVM.ViewModel
         public RelayCommand NavigateToAboutCommand { get; set; }
         public RelayCommand SendCommentCommand { get; set; }
         public RelayCommand NavigateToCreatePostCommand { get; set; }
+
         public BusinessProfileViewModel(INavigationService navigationService, IBusinessService businessService, AuthenticationService authenticationService)
         {
             Navigation = navigationService;
             BusinessService = businessService;
-            _authenticationService = authenticationService;
+            this.authenticationService = authenticationService;
             NavigateToPostsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileViewModel>(); }, o => true);
             NavigateToReviewsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileReviewsViewModel>(); }, o => true);
-            NavigateToContactCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileContactViewModel>();  }, o => true);
+            NavigateToContactCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileContactViewModel>(); }, o => true);
             NavigateToAboutCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileAboutViewModel>(); }, o => true);
             NavigateToCreatePostCommand = new RelayCommand(o => { Navigation.NavigateTo<CreatePostViewModel>(); }, o => true);
-            //SendCommentCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileAboutViewModel>(); }, o => true);
-            //SendCommentCommand = new RelayCommand(o =>
-            //{
-            //    MessageBox.Show("Hi! Please stop touching that button ^_^");
-            //}, o => true);
-            changeCurrrentBusiness();
+            ChangeCurrentBusiness();
         }
 
-        
-
-        private ObservableCollection<Post> _posts;
+        private ObservableCollection<Post> posts;
         public ObservableCollection<Post> Posts
         {
-            get 
-            { 
-                return GetUpdatedPostsCollection(); 
+            get
+            {
+                return GetUpdatedPostsCollection();
             }
             set
             {
-                _posts = value;
+                posts = value;
                 OnPropertyChanged();
             }
         }
 
         private ObservableCollection<Post> GetUpdatedPostsCollection()
         {
-            return new ObservableCollection<Post>(_businessService.GetAllPostsOfBusiness(CurrentBusiness.Id));
+            return new ObservableCollection<Post>(businessService.GetAllPostsOfBusiness(CurrentBusiness.Id));
         }
-        private ObservableCollection<PostAndComments> _postsAndComments;
+
+        private ObservableCollection<PostAndComments> postsAndComments;
         public ObservableCollection<PostAndComments> PostsAndComments
         {
             get
@@ -145,35 +136,30 @@ namespace Bussiness_social_media.MVVM.ViewModel
                 {
                     postsAndComments.Add(new PostAndComments(post, BusinessService.GetAllCommentsForPost(post.Id)));
                 }
-                _postsAndComments = postsAndComments;
-                return _postsAndComments;
+                this.postsAndComments = postsAndComments;
+                return this.postsAndComments;
             }
             set
             {
-                _postsAndComments = value;
+                postsAndComments = value;
                 OnPropertyChanged();
             }
         }
 
-        private string _newCommentContent;
+        private string newCommentContent;
         public string NewCommentContent
         {
-            get => _newCommentContent;
+            get => newCommentContent;
             set
             {
-                _newCommentContent = value;
+                newCommentContent = value;
                 OnPropertyChanged();
             }
         }
 
-
-
-
-
-        public Business changeCurrrentBusiness()
+        public Business ChangeCurrentBusiness()
         {
-            return _businessService.GetBusinessById(_navigation.BusinessId);
+            return businessService.GetBusinessById(navigationService.BusinessId);
         }
-
     }
 }

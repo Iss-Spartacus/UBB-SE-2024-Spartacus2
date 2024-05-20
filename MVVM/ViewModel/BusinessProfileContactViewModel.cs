@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bussiness_social_media.MVVM.ViewModel;
 using Bussiness_social_media.Core;
 using Bussiness_social_media.Services;
 
@@ -11,12 +12,12 @@ namespace Bussiness_social_media.MVVM.ViewModel
 {
     internal class BusinessProfileContactViewModel : Core.ViewModel
     {
-        private INavigationService navigation;
+        private INavigationService navigationService;
         private IBusinessService businessService;
         private AuthenticationService authenticationService;
 
-        public Business CurrentBusiness;
-        public FAQ CurrentFAQ;
+        public Business MyCurrentBusiness;
+        public FAQ MyCurrentFAQ;
         public FAQ NoFAQ;
         private bool isCurrentUserManager;
 
@@ -32,11 +33,9 @@ namespace Bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                return CurrentFAQ.Answer;
+                return MyCurrentFAQ.Answer;
             }
         }
-
-
         public bool IsCurrentUserManager
         {
             get
@@ -60,10 +59,10 @@ namespace Bussiness_social_media.MVVM.ViewModel
 
         public INavigationService Navigation
         {
-            get => navigation;
+            get => navigationService;
             set
             {
-                navigation = value;
+                navigationService = value;
                 OnPropertyChanged();
             }
         }
@@ -72,7 +71,7 @@ namespace Bussiness_social_media.MVVM.ViewModel
         {
             get
             {
-                return changeCurrrentBusiness();
+                return ChangeCurrentBusiness();
             }
             set
             {
@@ -83,10 +82,10 @@ namespace Bussiness_social_media.MVVM.ViewModel
 
         public FAQ CurrentFAQ
         {
-            get => CurrentFAQ;
+            get => MyCurrentFAQ;
             set
             {
-                CurrentFAQ = value;
+                MyCurrentFAQ = value;
                 OnPropertyChanged(nameof(CurrentFAQ));
             }
         }
@@ -98,7 +97,6 @@ namespace Bussiness_social_media.MVVM.ViewModel
 
         public RelayCommand FAQCommand { get; set; }
 
-
         public BusinessProfileContactViewModel(INavigationService navigationService, IBusinessService businessService, AuthenticationService authenticationService)
         {
             Navigation = navigationService;
@@ -108,27 +106,26 @@ namespace Bussiness_social_media.MVVM.ViewModel
             NavigateToReviewsCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileReviewsViewModel>(); }, o => true);
             NavigateToContactCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileContactViewModel>(); }, o => true);
             NavigateToAboutCommand = new RelayCommand(o => { Navigation.NavigateTo<BusinessProfileAboutViewModel>(); }, o => true);
-            changeCurrrentBusiness();
+            ChangeCurrentBusiness();
             NoFAQ = new FAQ(0, "FAQs...", "--    --\n    \\__/");
             CurrentFAQ = NoFAQ;
 
-            FAQCommand = new RelayCommand(o => {
+            FAQCommand = new RelayCommand(o =>
+            {
                 if (o is FAQ faq)
                 {
                     CurrentFAQ = faq;
                 }
-                //changeCurrrentFAQ();
             }, o => true);
-            // In this class, you have the instance of the business in currentBusiness. You can access it in the BusinessProfileView.xaml but I'm not quite sure how. Ask chat gpt, I tried something and I do not know if it works. It is currently 00:47 and I want to go to sleep
         }
 
-        public Business changeCurrrentBusiness()
+        public Business ChangeCurrentBusiness()
         {
             CurrentFAQ = NoFAQ;
-            return businessService.GetBusinessById(navigation.BusinessId);
+            return businessService.GetBusinessById(navigationService.BusinessId);
         }
 
-        public FAQ changeCurrrentFAQ()
+        public FAQ ChangeCurrentFAQ()
         {
             List<FAQ> faqList = businessService.GetAllFAQsOfBusiness(CurrentBusiness.Id);
             return faqList[0];

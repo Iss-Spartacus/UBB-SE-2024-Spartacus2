@@ -28,6 +28,11 @@ namespace Bussiness_social_media.Services
 
         public Post GetPostById(int id)
         {
+            Post post = postRepository.GetPostById(id);
+            if (post == null)
+            {
+                return null;
+            }
             return postRepository.GetPostById(id);
         }
 

@@ -1,84 +1,78 @@
-﻿using business_social_media.Services;
-using Bussiness_social_media.Core;
+﻿using Bussiness_social_media.Core;
 using Bussiness_social_media.Services;
 
 namespace Bussiness_social_media.MVVM.ViewModel
 {
-    internal class LoginViewModel : Core.ViewModel
+    public class LoginViewModel : Core.ViewModel
     {
-        private INavigationService _navigation;
+        private INavigationService navigation;
         private AuthenticationService authenticationService;
-
-        private string _username;
-        private string _password;
-        private string _errorMessage;
+        private string username;
+        private string password;
+        private string errorMessage;
 
         public string ErrorMessage
         {
-            get => _errorMessage;
+            get => errorMessage;
             set
             {
-                _errorMessage = value;
+                errorMessage = value;
                 OnPropertyChanged();
             }
         }
 
         public INavigationService NavigationService
         {
-            get => _navigation;
+            get => navigation;
             set
             {
-                _navigation = value;
+                navigation = value;
                 OnPropertyChanged();
             }
         }
 
         public string Username
         {
-            get => _username;
+            get => username;
             set
             {
-                _username = value;
+                username = value;
                 OnPropertyChanged();
             }
         }
 
         public string Password
         {
-            get => _password;
+            get => password;
             set
             {
-                _password = value;
+                password = value;
                 OnPropertyChanged();
             }
         }
 
         public RelayCommand LogInCommand { get; set; }
-
-        private void LogIn()
-        {
-            if(authenticationService.AuthenticateUser(Username, Password)) {
-                ErrorMessage = "";
-
-                _navigation.NavigateTo<HomeViewModel>();
-            }
-            else
-            {
-                ErrorMessage = "Invalid username or password.";
-            }
-        }
-
         public RelayCommand NavigateToRegisterViewCommand { get; set; }
 
         public LoginViewModel(INavigationService navigationService, AuthenticationService authentication)
         {
             NavigationService = navigationService;
             authenticationService = authentication;
-            LogInCommand = new RelayCommand(o => { LogIn();  }, o => true);
+            LogInCommand = new RelayCommand(o => { LogIn(); }, o => true);
             NavigateToRegisterViewCommand = new RelayCommand(o => { NavigationService.NavigateTo<RegisterViewModel>(); }, o => true);
-
-
         }
 
+        private void LogIn()
+        {
+            if (authenticationService.AuthenticateUser(Username, Password))
+            {
+                ErrorMessage = string.Empty;
+                navigation.NavigateTo<HomeViewModel>();
+            }
+            else
+            {
+                ErrorMessage = "Invalid username or password.";
+            }
+        }
     }
 }

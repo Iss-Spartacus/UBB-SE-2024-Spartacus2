@@ -1,154 +1,154 @@
-﻿using Bussiness_social_media.Core;
-using Bussiness_social_media.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
-using Microsoft.Win32;
 using System.Windows;
-using System.IO;
-using business_social_media.Services;
+using System.Windows.Input;
+using Bussiness_social_media.Core;
+using Bussiness_social_media.Services;
+using Microsoft.Win32;
+
 namespace Bussiness_social_media.MVVM.ViewModel
 {
     public class CreateNewBusinessViewModel : Core.ViewModel
     {
-        private  IBusinessService _businessService;
-        private INavigationService _navigationService;
-        private readonly AuthenticationService _authenticationService;
+        private IBusinessService businessService;
+        private INavigationService navigationService;
+        private readonly AuthenticationService authenticationService;
 
         public event EventHandler BusinessCreated;
 
-        private string _businessName;
-        private string _businessDescription;
-        private string _businessCategory;
-        private string _phoneNumber;
-        private string _emailAddress;
-        private string _website;
-        private string _address;
-        private string _logo;
-        private string _banner;
+        private string businessName;
+        private string businessDescription;
+        private string businessCategory;
+        private string phoneNumber;
+        private string emailAddress;
+        private string website;
+        private string address;
+        private string logo;
+        private string banner;
 
         public string BusinessName
         {
-            get => _businessName;
+            get => businessName;
             set
             {
-                _businessName = value;
+                businessName = value;
                 OnPropertyChanged();
             }
         }
 
         public string BusinessDescription
         {
-            get => _businessDescription;
+            get => businessDescription;
             set
             {
-                _businessDescription = value;
+                businessDescription = value;
                 OnPropertyChanged();
             }
         }
 
         public string BusinessCategory
         {
-            get => _businessCategory;
+            get => businessCategory;
             set
             {
-                _businessCategory = value;
+                businessCategory = value;
                 OnPropertyChanged();
             }
         }
 
         public string PhoneNumber
         {
-            get => _phoneNumber;
+            get => phoneNumber;
             set
             {
-                _phoneNumber = value;
+                phoneNumber = value;
                 OnPropertyChanged();
             }
         }
 
         public string EmailAddress
         {
-            get => _emailAddress;
+            get => emailAddress;
             set
             {
-                _emailAddress = value;
+                emailAddress = value;
                 OnPropertyChanged();
             }
         }
 
         public string Website
         {
-            get => _website;
+            get => website;
             set
             {
-                _website = value;
+                website = value;
                 OnPropertyChanged();
             }
         }
 
         public string Address
         {
-            get => _address;
+            get => address;
             set
             {
-                _address = value;
+                address = value;
                 OnPropertyChanged();
             }
         }
 
         public string Banner
         {
-            get => _banner;
+            get => banner;
             set
             {
-                _banner = value;
+                banner = value;
                 OnPropertyChanged();
             }
         }
 
         public string Logo
         {
-            get => _logo;
+            get => logo;
             set
             {
-                _logo = value;
+                logo = value;
                 OnPropertyChanged();
             }
         }
 
-        public RelayCommand CreateBusinessCommand { get; set;
+        public RelayCommand CreateBusinessCommand { get; set; }
 
-        }
-
-    public INavigationService NavigationService
+        public INavigationService NavigationService
         {
-            get => _navigationService;
+            get => navigationService;
             set
             {
-                _navigationService = value;
+                navigationService = value;
                 OnPropertyChanged();
             }
         }
 
         public ICommand AddLogoCommand { get; private set; }
-        public ICommand AddBannerCommand {  get; private set; }
+        public ICommand AddBannerCommand { get; private set; }
         public RelayCommand NavigateToHomeViewModelCommand { get; set; }
+
         public CreateNewBusinessViewModel(INavigationService navigationService, IBusinessService businessService, AuthenticationService authenticationService)
         {
             NavigationService = navigationService;
-            _authenticationService = authenticationService;
+            this.authenticationService = authenticationService;
             NavigateToHomeViewModelCommand = new RelayCommand(o => { NavigationService.NavigateTo<HomeViewModel>(); }, o => true);
-            AddLogoCommand = new RelayCommand(o => { ExecuteAddLogo(); } , o => true);
+            AddLogoCommand = new RelayCommand(o => { ExecuteAddLogo(); }, o => true);
             AddBannerCommand = new RelayCommand(o => { ExecuteAddBanner(); }, o => true);
-            _businessService = businessService;
+            this.businessService = businessService;
 
             NavigateToHomeViewModelCommand = new RelayCommand(o => { NavigationService.NavigateTo<HomeViewModel>(); }, o => true);
             CreateBusinessCommand = new RelayCommand(CreateBusiness, CanCreateBusiness);
         }
+
         private void ExecuteAddLogo()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -166,8 +166,8 @@ namespace Bussiness_social_media.MVVM.ViewModel
                 File.Copy(sourceFilePath, destinationFilePath, true);
                 Logo = destinationFilePath;
             }
-            
         }
+
         private void ExecuteAddBanner()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -186,19 +186,20 @@ namespace Bussiness_social_media.MVVM.ViewModel
                 Logo = destinationFilePath;
             }
         }
+
         private void CreateBusiness(object parameter)
         {
             List<string> managerUsernames = new List<string> { "admin" };
-            if (_authenticationService.GetIsLoggedIn())
+            if (authenticationService.GetIsLoggedIn())
             {
-                managerUsernames.Add(_authenticationService.CurrentUser.Username);
-                _businessService.AddBusiness(BusinessName, BusinessDescription, BusinessCategory, Logo, Banner, PhoneNumber, EmailAddress, Website, Address, DateTime.Now, managerUsernames, new List<int>(), new List<int>(), new List<int>());
+                managerUsernames.Add(authenticationService.CurrentUser.Username);
+                businessService.AddBusiness(BusinessName, BusinessDescription, BusinessCategory, Logo, Banner, PhoneNumber, EmailAddress, Website, Address, DateTime.Now, managerUsernames, new List<int>(), new List<int>(), new List<int>());
             }
             else
             {
                 MessageBox.Show("Please log in to create business.");
             }
-            _navigationService.NavigateTo<HomeViewModel>();
+            navigationService.NavigateTo<HomeViewModel>();
         }
 
         private bool CanCreateBusiness(object parameter)
@@ -206,6 +207,5 @@ namespace Bussiness_social_media.MVVM.ViewModel
             // Add validation logic here if needed
             return true;
         }
-
     }
 }

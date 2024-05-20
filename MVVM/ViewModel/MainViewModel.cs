@@ -1,51 +1,40 @@
-﻿using business_social_media.Services;
+﻿using System;
+using System.Windows;
 using Bussiness_social_media.Core;
 using Bussiness_social_media.Services;
-using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-
 namespace Bussiness_social_media.MVVM.ViewModel
 {
     public class MainViewModel : Core.ViewModel
     {
-        private INavigationService _navigation;
-        private AuthenticationService _authenticationService;
+        private INavigationService navigation;
+        private AuthenticationService authenticationService;
         public Visibility IsLoggedInMenuItemsVisibility { get; set; }
         public Visibility IsNotLoggedInMenuItemsVisibility { get; set; }
 
         public INavigationService Navigation
         {
-            get => _navigation;
+            get => navigation;
             set
             {
-                _navigation = value;
+                navigation = value;
                 OnPropertyChanged();
             }
         }
 
         public AuthenticationService AuthenticationService
         {
-            get => _authenticationService;
+            get => authenticationService;
             set
             {
-                _authenticationService = value;
+                authenticationService = value;
                 OnPropertyChanged();
             }
         }
 
-
-
-
         public RelayCommand NavigateToHomeCommand { get; set; }
-        public RelayCommand NavigateToCreateNewBusinessViewCommand{ get; set; }
+        public RelayCommand NavigateToCreateNewBusinessViewCommand { get; set; }
         public RelayCommand NavigateToUserManagedBusinessesViewCommand { get; set; }
+
         public MainViewModel(INavigationService navigationService, AuthenticationService authenticationService)
         {
             Navigation = navigationService;
@@ -72,6 +61,5 @@ namespace Bussiness_social_media.MVVM.ViewModel
             IsLoggedInMenuItemsVisibility = AuthenticationService.GetIsLoggedIn() ? Visibility.Visible : Visibility.Collapsed;
             IsNotLoggedInMenuItemsVisibility = AuthenticationService.GetIsLoggedIn() ? Visibility.Collapsed : Visibility.Visible;
         }
-
     }
 }

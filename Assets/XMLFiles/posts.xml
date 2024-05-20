@@ -1,39 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfPost xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Post>
-    <_id>1</_id>
-    <_numberOfLikes>0</_numberOfLikes>
-    <_creationDate>12-04-2024 04:16</_creationDate>
-    <_imagePath>C:\Users\Alex\source\repos\gui\bussiness-social-media\Assets\Images\images.jpg</_imagePath>
-    <_caption>Hey guys! This is cla ^_^ and this is my first post.</_caption>
-    <_commentIds>
-      <commentId>7</commentId>
-    </_commentIds>
-  </Post>
-  <Post>
-    <_id>2</_id>
-    <_numberOfLikes>0</_numberOfLikes>
-    <_creationDate>12-04-2024 04:16</_creationDate>
-    <_imagePath />
-    <_caption>Is anyone using this platform?</_caption>
-    <_commentIds>
-      <commentId>8</commentId>
-    </_commentIds>
-  </Post>
-  <Post>
-    <_id>3</_id>
-    <_numberOfLikes>0</_numberOfLikes>
-    <_creationDate>12-04-2024 04:16</_creationDate>
-    <_imagePath />
-    <_caption>This is cla cla. I endorse anarchy and bad vibes.</_caption>
-    <_commentIds />
-  </Post>
-  <Post>
-    <_id>4</_id>
-    <_numberOfLikes>0</_numberOfLikes>
-    <_creationDate>12-04-2024 04:16</_creationDate>
-    <_imagePath />
-    <_caption>First post. We innovate.</_caption>
-    <_commentIds />
-  </Post>
+	<Post>
+		<Id>1</Id>
+		<NumberOfLikes>0</NumberOfLikes>
+		<CreationDate>12-04-2024 04:16</CreationDate>
+		<ImagePath>C:\Users\Alex\source\repos\gui\bussiness-social-media\Assets\Images\images.jpg</ImagePath>
+		<Caption>Hey guys! This is cla ^_^ and this is my first post.</Caption>
+		<CommentIds>
+			<CommentId>7</CommentId>
+		</CommentIds>
+	</Post>
 </ArrayOfPost>
