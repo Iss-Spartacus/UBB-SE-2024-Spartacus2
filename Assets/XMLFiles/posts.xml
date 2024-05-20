@@ -10,4 +10,14 @@
 			<CommentId>7</CommentId>
 		</CommentIds>
 	</Post>
+	<Post>
+		<Id>2</Id>
+		<NumberOfLikes>0</NumberOfLikes>
+		<CreationDate>12-04-2024 04:16</CreationDate>
+		<ImagePath />
+		<Caption>Is anyone using this platform?</Caption>
+		<CommentIds>
+		  <CommentId>8</CommentId>
+		</CommentIds>
+	</Post>
 </ArrayOfPost>

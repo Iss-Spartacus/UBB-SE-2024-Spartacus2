@@ -10,9 +10,8 @@
     <Website>www.example.com</Website>
     <Address>123 Business St</Address>
     <CreatedAt>01-01-2022 00:00</CreatedAt>
-    <ManagerUsernames>
-        <Username>manager1</Username>
-        <Username>manager2</Username>
+    <ManagerUsernames>    
+        <Username>edy</Username>
     </ManagerUsernames>
     <PostIds>
         <PostId>1</PostId>
