@@ -1,4 +1,4 @@
-namespace Tests
+namespace Bussiness_social_media.Tests
 {
     public class Tests
     {
