@@ -4,6 +4,7 @@ using Moq;
 using Bussiness_social_media.MVVM.Model.Repository;
 using Bussiness_social_media.Services;
 using NUnit.Framework;
+using NUnit;
 
 namespace Tests.Services
 {

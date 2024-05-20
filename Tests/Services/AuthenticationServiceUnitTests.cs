@@ -76,7 +76,6 @@ namespace Tests.Services
             Assert.That(result, Is.True);
         }
 
-
         [Test]
         public void GetAllUsers_ReturnsAllUsers()
         {

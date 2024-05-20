@@ -1,5 +1,5 @@
 ﻿using Moq;
-using NUnit.Framework;
+using NUnit;
 using Bussiness_social_media.MVVM.Model.Repository;
 using Bussiness_social_media.Services;
 using System.Collections.Generic;
