@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "bh5yJUM/vbu8E1DsrleF/A/uleoyH2AnF4HaFGEn5sx09rcD8c6X8AlClikjGfI4zNdz+nx+Wm0JZR7mcnxIoQ==",
-  "success": true,
+  "dgSpecHash": "SnS0qdD7pcaiVcGpb6SEwjQ24sLghPRS92D5S8SYt68FB8ZL9H0aRyvqoij/4JiSoB/H4xYGXqx3858LCCpsgA==",
+  "success": false,
   "projectFilePath": "C:\\Users\\madal\\OneDrive\\Desktop\\UBB-SE-Proiect\\Bussiness-social-media.Tests\\Bussiness-social-media.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\madal\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
@@ -18,5 +18,15 @@
     "C:\\Users\\madal\\.nuget\\packages\\nunit3testadapter\\4.5.0\\nunit3testadapter.4.5.0.nupkg.sha512",
     "C:\\Users\\madal\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Bussiness-social-media is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Project Bussiness-social-media supports: net8.0-windows7.0 (.NETCoreApp,Version=v8.0)",
+      "libraryId": "Bussiness-social-media",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

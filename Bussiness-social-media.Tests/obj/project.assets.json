@@ -377,6 +377,16 @@
             "related": ".xml"
           }
         }
+      },
+      "Bussiness-social-media/1.0.0": {
+        "type": "project",
+        "framework": "Unsupported,Version=v0.0",
+        "compile": {
+          "bin/placeholder/Bussiness-social-media.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Bussiness-social-media.dll": {}
+        }
       }
     }
   },
@@ -970,10 +980,16 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Bussiness-social-media/1.0.0": {
+      "type": "project",
+      "path": "../UBB-SE-2024-Spartacus2/Bussiness-social-media.csproj",
+      "msbuildProject": "../UBB-SE-2024-Spartacus2/Bussiness-social-media.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Bussiness-social-media >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "NUnit >= 3.14.0",
       "NUnit.Analyzers >= 3.9.0",
@@ -1007,7 +1023,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\madal\\OneDrive\\Desktop\\UBB-SE-Proiect\\UBB-SE-2024-Spartacus2\\Bussiness-social-media.csproj": {
+              "projectPath": "C:\\Users\\madal\\OneDrive\\Desktop\\UBB-SE-Proiect\\UBB-SE-2024-Spartacus2\\Bussiness-social-media.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -1065,5 +1085,16 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1201",
+      "level": "Error",
+      "message": "Project Bussiness-social-media is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Project Bussiness-social-media supports: net8.0-windows7.0 (.NETCoreApp,Version=v8.0)",
+      "libraryId": "Bussiness-social-media",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }
