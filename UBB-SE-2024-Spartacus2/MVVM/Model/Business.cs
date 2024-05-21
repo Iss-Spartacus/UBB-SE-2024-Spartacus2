@@ -101,6 +101,7 @@ public class Business : IXmlSerializable
     public void SetManagerUsernames(List<string> usernames) => managerUsernames = usernames;
     public void SetPostIds(List<int> postIds) => this.postIds = postIds;
     public void SetReviewIds(List<int> reviewIds) => this.reviewIds = reviewIds;
+
     public void SetFaqIds(List<int> faqIds) => this.faqIds = faqIds;
 
     public void AddManager(string managerUsername) => managerUsernames.Add(managerUsername);
