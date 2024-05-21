@@ -11,6 +11,33 @@ using System.Xml.Serialization;
 
 namespace Bussiness_social_media.MVVM.Model.Repository
 {
+    public interface IFileSystem
+    {
+        bool FileExists(string path);
+        Stream OpenFile(string path, FileMode mode);
+        void CreateFile(string path);
+    }
+
+    public class FileSystem : IFileSystem
+    {
+        public bool FileExists(string path)
+        {
+            return File.Exists(path);
+        }
+
+        public Stream OpenFile(string path, FileMode mode)
+        {
+            return File.Open(path, mode);
+        }
+
+        public void CreateFile(string path)
+        {
+            File.Create(path);
+        }
+    }
+
+
+
     public interface IBusinessRepository
     {
         List<Business> GetAllBusinesses();
@@ -27,6 +54,7 @@ namespace Bussiness_social_media.MVVM.Model.Repository
     {
         private List<Business> businesses;
         private string xmlFilePath;
+        private IFileSystem fileSystem;
 
         private static Random random = new Random();
 
@@ -36,10 +64,18 @@ namespace Bussiness_social_media.MVVM.Model.Repository
             Generate10RandomBusineses();
         }
 
+      
+            
+
+        public BusinessRepository(IFileSystem fileSystem)
+        {
+            this.fileSystem = fileSystem;
+            this.businesses = new List<Business>();
+        }
+
         public BusinessRepository(string xmlFilePath)
         {
             this.xmlFilePath = xmlFilePath;
-            businesses = new List<Business>();
             LoadBusinessesFromXml();
         }
 
