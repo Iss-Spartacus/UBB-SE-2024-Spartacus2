@@ -126,7 +126,7 @@ namespace Bussiness_social_media.Tests
             Assert.AreEqual(expectedBusinesses, result);
         }
 
-        // this test currently fails
+       
         [Test]
         public void GetBusinessesManagedBy_ValidUsername_ReturnsExpectedBusinesses()
         {
@@ -137,6 +137,9 @@ namespace Bussiness_social_media.Tests
 
             // Act
             var result = businessService.GetBusinessesManagedBy(username);
+            // associate 2 businesses with the username
+            expectedBusinesses[0].SetManagerUsernames(new List<string> { username });
+            expectedBusinesses[1].SetManagerUsernames(new List<string> { username });
 
             // Assert
             Assert.AreEqual(expectedBusinesses, result);

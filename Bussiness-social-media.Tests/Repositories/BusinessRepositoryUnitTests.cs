@@ -20,7 +20,7 @@ namespace Bussiness_social_media.Tests
             mockFileSystem = new Mock<IFileSystem>();
             mockFileSystem.Setup(fs => fs.FileExists(It.IsAny<string>())).Returns(true);
             mockFileSystem.Setup(fs => fs.OpenFile(It.IsAny<string>(), It.IsAny<FileMode>())).Returns(new MemoryStream());
-            businessRepository = new BusinessRepository(mockFileSystem.Object);
+            businessRepository = new BusinessRepository("Assets\\XMLFiles\\businesses.xml");
         }
 
         [Test]

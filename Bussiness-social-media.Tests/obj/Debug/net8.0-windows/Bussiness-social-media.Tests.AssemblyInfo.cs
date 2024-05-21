@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bussiness-social-media.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c93492bad60f073f20360aa01e04441138ca4135")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc4ce1e9a56ccbb584f283dc59fa8f8b203bcd8a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Bussiness-social-media.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Bussiness-social-media.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

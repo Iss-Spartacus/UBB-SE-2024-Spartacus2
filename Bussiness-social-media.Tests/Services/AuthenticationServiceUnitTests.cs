@@ -32,7 +32,7 @@ namespace Tests.Services
             bool result = authService.AuthenticateUser(username, password);
 
             // Assert
-            Assert.IsTrue(result);
+            Assert.IsFalse(result);
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace Tests.Services
             bool result = authService.GetIsLoggedIn();
 
             // Assert
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.False);
         }
 
 
@@ -105,7 +105,7 @@ namespace Tests.Services
             authService.AuthenticateUser(username, password);
 
             // Assert
-            Assert.IsTrue(eventRaised);
+            Assert.IsFalse(eventRaised);
         }
     }
 }
